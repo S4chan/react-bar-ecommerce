@@ -1,0 +1,69 @@
+$primary-color: #303841;
+$complementary-color: #413930;
+$secondary-color: #d72323;
+$w-color: #e3e3e3;
+
+.about-container {
+  color: $w-color;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 250px;
+  grid-template-areas: "tba aboutText bestFifty";
+  align-items: center;
+  justify-items: center;
+  gap: 20px;
+  max-height: 250px;
+  .tba {
+    grid-area: tba;
+  }
+
+  .bestFifty {
+    grid-area: bestFifty;
+  }
+
+  .aboutText {
+    grid-area: aboutText;
+    line-height: 2.5;
+    padding: 0 20px;
+    text-align: center;
+  }
+  img {
+    object-fit: cover;
+    object-position: center center;
+    max-width: 250px;
+    height: auto;
+  }
+}
+
+@media (max-width: 1024px) {
+  .about-container {
+    p {
+      line-height: 1.8;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .about-container {
+    max-height: 500px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "tba bestFifty"
+      "aboutText aboutText";
+    p {
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .about-container {
+    p {
+      line-height: normal;
+      font-size: 0.8rem;
+    }
+  }
+}

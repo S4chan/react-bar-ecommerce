@@ -1,0 +1,201 @@
+$primary-color: #303841;
+$complementary-color: #413930;
+$secondary-color: #d72323;
+$w-color: #e3e3e3;
+$hover-opacity: 0;
+$transition-speed: 0.3s;
+
+.main-image-container {
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 0;
+  .main-image {
+    width: 100%;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .bgLogo {
+      position: absolute;
+      top: 60%;
+      left: 10%;
+      transform: translateY(-50%);
+      text-align: left;
+
+      img {
+        max-width: 50%;
+        width: 300px;
+        display: block;
+        margin-bottom: 30px;
+      }
+
+      h1 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+        font-weight: bold;
+        color: white;
+      }
+    }
+  }
+
+  .overlay-images {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+
+    .overlay-item {
+      width: 30%;
+
+      img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+    }
+  }
+}
+
+.homeEvent {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-areas:
+    "imgOne textTwo imgThree textFour"
+    "textOne imgTwo textThree imgFour";
+  gap: 0.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: $w-color;
+  .text-item {
+    border: 1px solid red;
+  }
+  .imgOne {
+    grid-area: imgOne;
+  }
+  .imgTwo {
+    grid-area: imgTwo;
+  }
+  .imgThree {
+    grid-area: imgThree;
+  }
+  .imgFour {
+    grid-area: imgFour;
+  }
+  .textOne {
+    grid-area: textOne;
+  }
+  .textTwo {
+    grid-area: textTwo;
+  }
+  .textThree {
+    grid-area: textThree;
+  }
+  .textFour {
+    grid-area: textFour;
+  }
+  .homeEvent-item {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+
+    .event-bg {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      h2 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 600;
+      }
+
+      .btn-custom {
+        margin-top: 10px;
+        background: $secondary-color;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+    }
+
+    /* 正確的 hover 設定 */
+    &:hover .btn-custom {
+      opacity: 1;
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .main-image-container {
+    .main-image {
+      .bgLogo {
+        img {
+          max-width: 35%;
+          width: 220px;
+        }
+        h1 {
+          font-size: 1.8rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .main-image-container {
+    .main-image {
+      .bgLogo {
+        top: 70%;
+        left: 5%;
+
+        img {
+          width: 200px;
+        }
+
+        h1 {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+
+  .homeEvent {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "imgOne textOne"
+      "textTwo imgTwo"
+      "imgThree textThree"
+      "textFour imgFour";
+  }
+
+  .homeEvent-item {
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .overlay-images {
+    .overlay-item {
+      width: 90%;
+    }
+  }
+
+  .homeEvent-item {
+    height: 150px;
+  }
+}

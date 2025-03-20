@@ -1,0 +1,122 @@
+$primary-color: #303841;
+$complementary-color: #413930;
+$secondary-color: #d72323;
+$w-color: #e3e3e3;
+
+.reservation-form {
+  width: auto;
+  padding: 20px;
+  background: $complementary-color;
+  color: $w-color;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .reservation-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .form-section {
+    flex: 1;
+    max-width: 50%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .image-section {
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+  }
+
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+  div {
+    margin-bottom: 30px;
+  }
+
+  select,
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid $complementary-color;
+    border-radius: 5px;
+    background: $primary-color;
+    color: $w-color;
+  }
+
+  .time-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+
+    button {
+      padding: 10px;
+      border: 1px solid $complementary-color;
+      background: $primary-color;
+      color: $w-color;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover,
+      &.selected {
+        background: $secondary-color;
+        color: white;
+      }
+    }
+  }
+
+  .submit-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: $secondary-color;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+
+    &:hover {
+      background: darken($secondary-color, 10%);
+    }
+  }
+}
+
+@media (max-width: 1025px) {
+  .reservation-form {
+    .reservation-container {
+      display: grid;
+      grid-template-columns: auto auto;
+      grid-template-rows: 1fr;
+      grid-template-areas:
+        "form-section"
+        "image-section";
+    }
+    .form-section {
+      grid-area: form-section;
+      max-width: 100%;
+    }
+    .image-section {
+      grid-area: image-section;
+      max-width: 100%;
+    }
+  }
+}

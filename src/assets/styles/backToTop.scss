@@ -1,0 +1,30 @@
+$secondary-color: #d72323;
+$w-color: #e3e3e3;
+
+.back-to-top {
+  position: fixed;
+  bottom: 20px; // 設定距離底部 20px
+  right: 20px; // 設定距離右邊 20px
+  background-color: $secondary-color; // 使用 secondary-color 變數作為背景顏色
+  color: $w-color; // 設定 i 圖示顏色為 w-color 變數
+  border: none; // 無邊框
+  border-radius: 50%; // 圓形按鈕
+  padding: 10px 15px; // 內邊距
+  font-size: 1.5rem; // 設定字型大小
+  cursor: pointer; // 當滑鼠懸停時顯示指標
+  z-index: 1050;
+  display: none;
+
+  i {
+    font-size: 1.5rem;
+    color: $w-color;
+  }
+
+  &.visible {
+    display: block;
+  }
+
+  &:hover {
+    background-color: darken($secondary-color, 10%);
+  }
+}
