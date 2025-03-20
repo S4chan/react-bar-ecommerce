@@ -13,6 +13,7 @@ import bartenderImg from "../../assets/images/odjrvook.png";
 import tba from "../../assets/icons/tba01.png";
 import bestFifty from "../../assets/icons/b50.png";
 import subImage from "../../assets/images/50yq0ujq.png";
+import cocktail from "../../assets/images/3xyn7soe.png";
 
 import ReservationForm from "../../components/ReservationForm";
 import Introduce from "../../components/Introduce";
@@ -127,11 +128,7 @@ export default function HomePage() {
               data-aos-easing="linear"
               data-aos-duration="1500"
             >
-              <img
-                src="src/assets/images/3xyn7soe.png"
-                alt="Cocktail"
-                className="img-fluid"
-              />
+              <img src={cocktail} alt="Cocktail" className="img-fluid" />
             </div>
           </div>
         </div>
