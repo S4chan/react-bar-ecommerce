@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router";
 import { updateCartData } from "../store/cartSlice";
-import logoWhite from "../assets/icons/logo-w.png";
+import logoDark from "../assets/icons/logo-d.png";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -73,7 +73,7 @@ export default function Navbar() {
         <ul>
           <li className="logo">
             <a href="#">
-              <img src={logoWhite} alt="w" />
+              <img src={logoDark} alt="w" />
             </a>
           </li>
           <li className="hideOnMobile">

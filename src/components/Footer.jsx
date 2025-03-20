@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
+import logoDark from "../assets/icons/logo-d.png";
 
 export default function Footer() {
   const [isActive, setIsActive] = useState(true);
@@ -53,7 +54,7 @@ export default function Footer() {
             <div className="col-4 mb-3 mb-md-0 d-flex flex-column align-items-center justify-content-around">
               <img
                 className="img-fluid mb-3"
-                src="src/assets/icons/logo-d.png"
+                src={logoDark}
                 alt="logo"
                 style={{ maxWidth: "150px" }}
               />
@@ -122,11 +123,7 @@ export default function Footer() {
                 <p className="m-0 ">台北市信義區松高路6巷88號</p>
               </div>
               <div className="social-media">
-                <img
-                  className="contact-logo"
-                  src="src/assets/icons/logo-d.png"
-                  alt="w"
-                />
+                <img className="contact-logo" src={logoDark} alt="logoDark" />
                 <div className="social">
                   <a href="https://www.facebook.com/" title="Facebook">
                     <i className="bi bi-facebook"></i>

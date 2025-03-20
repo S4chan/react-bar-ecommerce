@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import logoDark from "../assets/icons/logo-d.png";
 
 export default function AdminNavbar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -33,7 +34,7 @@ export default function AdminNavbar() {
         <ul>
           <li className="logo">
             <a href="#">
-              <img src="src/assets/icons/logo-d.png" alt="w" />
+              <img src={logoDark} alt="w" />
             </a>
           </li>
           <li className="hideOnMobile">
