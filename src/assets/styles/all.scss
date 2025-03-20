@@ -1,0 +1,23 @@
+@import "bootstrap/scss/functions.scss";
+@import "../styles/variables.scss";
+@import "bootstrap/scss/bootstrap.scss";
+@import "../styles/reset.scss";
+@import "../styles/custom.scss";
+@import "../styles/navbar.scss";
+@import "../styles/footer.scss";
+@import "../styles/reservation.scss";
+@import "../styles/home.scss";
+@import "../styles/backToTop.scss";
+@import "../styles/introduce.scss";
+@import "../styles/adminOrder.scss";
+@import "../styles/about.scss";
+
+$primary-color: #303841;
+$complementary-color: #413930;
+$secondary-color: #d72323;
+$w-color: #e3e3e3;
+
+body {
+  font-family: Arial, sans-serif;
+  background: $primary-color;
+}

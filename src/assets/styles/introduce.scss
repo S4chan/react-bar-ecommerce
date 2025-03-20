@@ -1,0 +1,115 @@
+$primary-color: #303841;
+$complementary-color: #413930;
+$secondary-color: #d72323;
+$w-color: #e3e3e3;
+
+.introduce-container {
+  h2,
+  p {
+    font-weight: 400;
+    color: $w-color;
+  }
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(6, 200px);
+
+  grid-template-areas:
+    "supplyOne supplyTwo supplyThree supplyThree"
+    "supplyOne supplyTwo supplyThree supplyThree"
+    "supplyOne supplyTwo supply-text supply-text"
+    "facility-text facility-text facilityTwo facilityThree"
+    "facilityOne facilityOne facilityTwo facilityThree"
+    "facilityOne facilityOne facilityTwo facilityThree";
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
+}
+
+.supplyOne,
+.supplyTwo,
+.supplyThree,
+.facilityOne,
+.facilityTwo,
+.facilityThree {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.supply-text,
+.facility-text {
+  text-align: center;
+  width: 100%;
+  padding: 1rem 2rem;
+  box-sizing: border-box;
+  border: 0.5rem solid $complementary-color;
+  p {
+    line-height: 2;
+  }
+}
+
+.supplyOne {
+  grid-area: supplyOne;
+}
+
+.supplyTwo {
+  grid-area: supplyTwo;
+}
+
+.supplyThree {
+  grid-area: supplyThree;
+}
+
+.supply-text {
+  grid-area: supply-text;
+}
+
+.facility-text {
+  grid-area: facility-text;
+}
+
+.facilityOne {
+  grid-area: facilityOne;
+}
+
+.facilityTwo {
+  grid-area: facilityTwo;
+}
+
+.facilityThree {
+  grid-area: facilityThree;
+}
+
+@media (max-width: 1024px) {
+  .supply-text,
+  .facility-text {
+    p {
+      line-height: normal;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .introduce-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(8, 175px);
+    grid-template-areas:
+      "supplyOne supplyTwo "
+      "supplyOne supplyTwo "
+      "supply-text supply-text"
+      "supplyThree supplyThree"
+      "facilityOne facilityOne "
+      "facility-text facility-text"
+      "facilityTwo facilityThree"
+      "facilityTwo facilityThree";
+    p {
+      font-size: 0.8rem;
+      line-height: 2.5;
+    }
+  }
+}

@@ -1,0 +1,225 @@
+$primary-color: #303841;
+$complementary-color: #413930;
+$secondary-color: #d72323;
+$w-color: #e3e3e3;
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.footer-container {
+  background-color: $w-color;
+  position: relative;
+  overflow: hidden;
+  height: 400px;
+  max-width: 100%;
+  p {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    margin: 20px 0;
+  }
+  button {
+    background-color: $secondary-color;
+    color: $w-color;
+    font-size: 12px;
+    padding: 10px 45px;
+    border: 1px solid transparent;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+    &.hidden {
+      background-color: transparent;
+      border-color: $w-color;
+    }
+  }
+  form {
+    background-color: $w-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    height: 100%;
+  }
+  input {
+    background-color: #eeeeee;
+    border: none;
+    margin: 8px 0;
+    padding: 10px 15px;
+    font-size: 13px;
+    width: 100%;
+    outline: none;
+  }
+  .form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+  }
+}
+
+.subscribe {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+
+.footer-container.active .subscribe {
+  transform: translateX(200%);
+}
+
+.contact {
+  color: $primary-color;
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  align-items: center;
+  text-align: center;
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.footer-container.active .contact {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+  animation: move 0.6s;
+}
+
+.service {
+  a {
+    text-decoration: none;
+  }
+}
+
+@keyframes move {
+  0%,
+  49.99% {
+    opacity: 0;
+    z-index: 1;
+  }
+  50%,
+  100% {
+    opacity: 1;
+    z-index: 5;
+  }
+}
+
+.toggle-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: all 0.6s ease-in-out;
+  z-index: 500;
+}
+
+.footer-container.active .toggle-container {
+  transform: translateX(-100%);
+}
+
+.toggle {
+  background-color: $secondary-color;
+  height: 100%;
+  color: $w-color;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: all 0.6s ease-in-out;
+}
+
+.footer-container.active .toggle {
+  transform: translateX(50%);
+}
+
+.toggle-panel {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 30px;
+  text-align: center;
+  top: 0;
+  transform: translateX(0);
+  transition: all 0.6s ease-in-out;
+}
+
+.toggle-left {
+  transform: translateX(-200%);
+  right: 50%;
+}
+
+.footer-container.active .toggle-left {
+  transform: translateX(0);
+}
+
+.toggle-right {
+  right: 0;
+  transform: translateX(0%);
+}
+
+.contact-logo {
+  width: 200px;
+  height: auto;
+  display: block;
+  margin: 0 auto 40px auto;
+}
+
+.social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  a {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    aspect-ratio: 1;
+    font-size: 1.5rem;
+    color: $w-color;
+    background-color: $primary-color;
+    border-radius: 50%;
+    transition: color 0.5s ease-in-out;
+
+    &:hover {
+      color: $secondary-color;
+      --fill: 100%;
+    }
+
+    &::after {
+      position: absolute;
+      z-index: -1;
+      content: "";
+      inset: -3px;
+      border-radius: inherit;
+      background: conic-gradient(
+        $secondary-color var(--fill),
+        transparent var(--fill)
+      );
+      transition: --fill 0.6s ease-in-out;
+    }
+  }
+}
+
+@property --fill {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 0%;
+}
