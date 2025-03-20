@@ -129,7 +129,7 @@ export default function HomePage() {
             >
               <img
                 src="src/assets/images/3xyn7soe.png"
-                alt=""
+                alt="Cocktail"
                 className="img-fluid"
               />
             </div>
