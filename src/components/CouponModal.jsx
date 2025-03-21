@@ -23,6 +23,7 @@ export default function CouponModal({
     is_enabled: 1,
   });
   const couponModalRef = useRef(null);
+  const modalInstance = useRef(null);
   const token = localStorage.getItem("hexToken");
   const dispatch = useDispatch();
 
@@ -55,21 +56,48 @@ export default function CouponModal({
   }, [tempCoupon]);
 
   useEffect(() => {
-    if (couponModalRef.current) {
-      const modal = new Modal(couponModalRef.current, { backdrop: false });
-      if (isOpen) {
-        modal.show();
-      } else {
-        modal.hide();
+    if (isOpen && couponModalRef.current) {
+      const modalElement = couponModalRef.current;
+
+      if (modalInstance.current) {
+        modalInstance.current?.dispose();
+        modalInstance.current = null;
       }
+
+      modalInstance.current = new Modal(modalElement, {
+        backdrop: "static",
+        keyboard: false,
+      });
+
+      const handleHidden = () => {
+        setIsOpen(false);
+        document.body.classList.remove("modal-open");
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
+      };
+
+      modalElement.addEventListener("hidden.bs.modal", handleHidden);
+      modalInstance.current?.show();
+
+      return () => {
+        modalElement.removeEventListener("hidden.bs.modal", handleHidden);
+        if (modalInstance.current) {
+          modalInstance.current?.dispose();
+          modalInstance.current = null;
+        }
+        document.body.classList.remove("modal-open");
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
+      };
     }
-  }, [isOpen]);
+  }, [isOpen, setIsOpen]);
 
   const closeCouponModal = () => {
-    if (couponModalRef.current) {
-      const modalInstance = Modal.getInstance(couponModalRef.current);
-      modalInstance?.hide();
-      setIsOpen(false);
+    if (modalInstance.current) {
+      modalInstance.current.hide();
+      document.body.classList.remove("modal-open");
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
     }
   };
 
@@ -150,23 +178,24 @@ export default function CouponModal({
 
   return (
     <div
-      className="modal fade"
+      className="modal"
+      id="couponModal"
       ref={couponModalRef}
       tabIndex="-1"
+      role="dialog"
       aria-labelledby="couponModalLabel"
-      aria-hidden="true"
     >
-      <div className="modal-dialog">
+      <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="couponModalLabel">
-              {modalMode === "edit" ? "編輯優惠券" : "新增優惠券"}
+              {modalMode === "create" ? "新增優惠券" : "編輯優惠券"}
             </h5>
             <button
               type="button"
               className="btn-close"
-              aria-label="Close"
               onClick={closeCouponModal}
+              aria-label="Close"
             ></button>
           </div>
           <div className="modal-body">

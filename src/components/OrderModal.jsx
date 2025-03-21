@@ -15,6 +15,7 @@ export default function OrderModal({
   fetchOrders,
 }) {
   const orderModalRef = useRef(null);
+  const modalInstance = useRef(null);
   const [modalData, setModalData] = useState(null);
   const token = localStorage.getItem("hexToken");
   const dispatch = useDispatch();
@@ -26,17 +27,48 @@ export default function OrderModal({
   }, [tempOrder]);
 
   useEffect(() => {
-    if (orderModalRef.current && modalData && isOpen) {
-      const modal = new Modal(orderModalRef.current, { backdrop: false });
-      modal.show();
+    if (isOpen && orderModalRef.current && modalData) {
+      const modalElement = orderModalRef.current;
+
+      if (modalInstance.current) {
+        modalInstance.current?.dispose();
+        modalInstance.current = null;
+      }
+
+      modalInstance.current = new Modal(modalElement, {
+        backdrop: "static",
+        keyboard: false,
+      });
+
+      const handleHidden = () => {
+        setIsOpen(false);
+        document.body.classList.remove("modal-open");
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
+      };
+
+      modalElement.addEventListener("hidden.bs.modal", handleHidden);
+      modalInstance.current.show();
+
+      return () => {
+        modalElement.removeEventListener("hidden.bs.modal", handleHidden);
+        if (modalInstance.current) {
+          modalInstance.current?.dispose();
+          modalInstance.current = null;
+        }
+        document.body.classList.remove("modal-open");
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
+      };
     }
-  }, [modalData, isOpen]);
+  }, [isOpen, setIsOpen, modalData]);
 
   const closeOrderModal = () => {
-    if (orderModalRef.current) {
-      const modalInstance = Modal.getInstance(orderModalRef.current);
-      modalInstance?.hide();
-      setIsOpen(false);
+    if (modalInstance.current) {
+      modalInstance.current.hide();
+      document.body.classList.remove("modal-open");
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
     }
   };
 
@@ -110,19 +142,25 @@ export default function OrderModal({
     }
   };
 
+  if (!modalData) {
+    return null;
+  }
+
   return (
     <div
       id="orderModal"
-      className="modal fade"
+      className="modal"
       ref={orderModalRef}
       tabIndex="-1"
       aria-labelledby="orderModalLabel"
-      aria-hidden="true"
+      role="dialog"
     >
       <div className="modal-dialog modal-dialog-centered modal-xl">
         <div className="modal-content border-0 shadow">
           <div className="modal-header border-bottom">
-            <h5 className="modal-title fs-4">訂單詳情</h5>
+            <h5 className="modal-title fs-4" id="orderModalLabel">
+              訂單詳情
+            </h5>
             <button
               type="button"
               className="btn-close"

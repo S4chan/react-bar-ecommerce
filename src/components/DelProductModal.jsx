@@ -63,12 +63,16 @@ export default function DelProductModal({
       id="delProductModal"
       ref={delProductModalRef}
       tabIndex="-1"
+      role="dialog"
+      aria-labelledby="delProductModalLabel"
       style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
     >
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h1 className="modal-title fs-5">刪除產品</h1>
+            <h1 className="modal-title fs-5" id="delProductModalLabel">
+              刪除產品
+            </h1>
             <button
               type="button"
               className="btn-close"

@@ -297,14 +297,12 @@ export default function AdminOrders() {
         )}
       </div>
 
-      {isOrderModalOpen && (
-        <OrderModal
-          tempOrder={tempOrder}
-          isOpen={isOrderModalOpen}
-          setIsOpen={setIsOrderModalOpen}
-          fetchOrders={fetchOrders}
-        />
-      )}
+      <OrderModal
+        tempOrder={tempOrder}
+        isOpen={isOrderModalOpen}
+        setIsOpen={setIsOrderModalOpen}
+        fetchOrders={fetchOrders}
+      />
 
       <DelOrderModal
         tempOrder={tempOrder}

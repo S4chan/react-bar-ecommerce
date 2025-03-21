@@ -27,40 +27,51 @@ export default function ProductModal({
   }, [tempProduct]);
 
   useEffect(() => {
-    if (isOpen) {
-      if (productModalRef.current) {
-        productModalRef.current.removeAttribute("aria-hidden");
+    if (isOpen && productModalRef.current) {
+      const modalElement = productModalRef.current;
+
+      if (modalInstance.current) {
+        modalInstance.current?.dispose();
+        modalInstance.current = null;
       }
 
-      modalInstance.current = new Modal(productModalRef.current, {
+      modalInstance.current = new Modal(modalElement, {
         backdrop: "static",
         keyboard: false,
       });
+
+      const handleHidden = () => {
+        setIsOpen(false);
+        document.body.classList.remove("modal-open");
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
+      };
+
+      modalElement.addEventListener("hidden.bs.modal", handleHidden);
       modalInstance.current.show();
 
-      productModalRef.current.addEventListener("hidden.bs.modal", () => {
-        if (productModalRef.current) {
-          productModalRef.current.setAttribute("aria-hidden", "true");
+      return () => {
+        modalElement.removeEventListener("hidden.bs.modal", handleHidden);
+        if (modalInstance.current) {
+          modalInstance.current?.dispose();
+          modalInstance.current = null;
         }
-        setIsOpen(false);
-      });
-    } else if (modalInstance.current) {
-      modalInstance.current.hide();
+        document.body.classList.remove("modal-open");
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
+      };
     }
-
-    return () => {
-      if (modalInstance.current) {
-        modalInstance.current.dispose();
-      }
-    };
   }, [isOpen, setIsOpen]);
 
   const dispatch = useDispatch();
 
   const closeProductModal = () => {
-    const modalInstance = Modal.getInstance(productModalRef.current);
-    modalInstance.hide();
-    setIsOpen(false);
+    if (modalInstance.current) {
+      modalInstance.current.hide();
+      document.body.classList.remove("modal-open");
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+    }
   };
 
   const modalInputChangehandler = (e) => {

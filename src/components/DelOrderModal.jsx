@@ -81,21 +81,24 @@ export default function DelOrderModal({
 
   return (
     <div
+      className="modal fade"
       id="delOrderModal"
-      className="modal"
       ref={delOrderModalRef}
-      style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+      tabIndex="-1"
+      role="dialog"
+      aria-labelledby="delOrderModalLabel"
     >
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content border-0 shadow">
-          <div className="modal-header border-bottom">
-            <h5 className="modal-title fs-4">
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h1 className="modal-title fs-5" id="delOrderModalLabel">
               {isDeleteAll ? "刪除所有訂單" : "刪除訂單"}
-            </h5>
+            </h1>
             <button
               type="button"
               className="btn-close"
               onClick={closeDelOrderModal}
+              data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
