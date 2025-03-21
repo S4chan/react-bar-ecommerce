@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, useParams } from "react-router";
 import ReactLoading from "react-loading";
 import { useDispatch } from "react-redux";
@@ -21,44 +21,46 @@ export default function MenuDetailPage() {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const getProduct = async () => {
-      setScreenLoading(true);
-      try {
-        const res = await axios.get(
-          `${BASE_URL}/api/${API_PATH}/product/${product_id}`
-        );
-        setProduct(res.data.product);
-      } catch (error) {
-        console.error(error);
-        alert("取得產品失敗");
-      } finally {
-        setScreenLoading(false);
+  const getProduct = useCallback(async () => {
+    setScreenLoading(true);
+    try {
+      const res = await axios.get(
+        `${BASE_URL}/api/${API_PATH}/product/${product_id}`
+      );
+      setProduct(res.data.product);
+    } catch (error) {
+      console.error(error);
+      alert("取得產品失敗");
+    } finally {
+      setScreenLoading(false);
+    }
+  }, [product_id]);
+
+  const getAllProducts = useCallback(async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/api/${API_PATH}/products/all`);
+      if (res.data && res.data.success) {
+        const products = res.data.products;
+        const shuffled = products
+          .filter((p) => p.id !== product_id)
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 6);
+        setRandomProducts(shuffled);
       }
-    };
+    } catch (error) {
+      console.error("取得推薦產品失敗:", error);
+    }
+  }, [product_id]);
+
+  useEffect(() => {
     getProduct();
-  }, [product_id]);
+  }, [getProduct]);
 
   useEffect(() => {
-    const getAllProducts = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/api/${API_PATH}/products/all`);
-        if (res.data && res.data.success) {
-          const products = res.data.products;
-          const shuffled = products
-            .filter((p) => p.id !== product_id)
-            .sort(() => 0.5 - Math.random())
-            .slice(0, 6);
-          setRandomProducts(shuffled);
-        }
-      } catch (error) {
-        console.error("取得推薦產品失敗:", error);
-      }
-    };
     getAllProducts();
-  }, [product_id]);
+  }, [getAllProducts]);
 
-  const getCart = async () => {
+  const getCart = useCallback(async () => {
     try {
       const res = await axios.get(`${BASE_URL}/api/${API_PATH}/cart`);
       dispatch(updateCartData(res.data.data));
@@ -66,11 +68,11 @@ export default function MenuDetailPage() {
       console.error(error);
       alert("取得購物車失敗");
     }
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     getCart();
-  }, []);
+  }, [getCart]);
 
   const addCartItem = async (product_id, qty) => {
     setIsLoading(true);

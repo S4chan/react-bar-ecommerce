@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import ReactLoading from "react-loading";
 import { Link } from "react-router";
@@ -75,7 +75,7 @@ export default function CartPage() {
     });
   };
 
-  const getCart = async () => {
+  const getCart = useCallback(async () => {
     try {
       const res = await axios.get(`${BASE_URL}/api/${API_PATH}/cart`);
       dispatch(updateCartData(res.data.data));
@@ -84,7 +84,7 @@ export default function CartPage() {
       console.error(error);
       showMessage("取得購物車失敗", "error");
     }
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     // 檢查 localStorage 是否有購物車資料
@@ -99,7 +99,7 @@ export default function CartPage() {
     }
     // 無論是否有本地資料，都獲取最新的購物車資料
     getCart();
-  }, []);
+  }, [dispatch, getCart]);
 
   const removeCart = async () => {
     setScreenLoading(true);

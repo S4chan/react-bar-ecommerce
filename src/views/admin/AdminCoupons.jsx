@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { pushMessage } from "../../store/toastSlice";
 import ReactLoading from "react-loading";
@@ -20,7 +20,7 @@ export default function AdminCoupons() {
   const [modalMode, setModalMode] = useState("create");
   const dispatch = useDispatch();
 
-  const fetchCoupons = async () => {
+  const fetchCoupons = useCallback(async () => {
     try {
       const token = localStorage.getItem("hexToken");
       const response = await axios.get(
@@ -45,11 +45,11 @@ export default function AdminCoupons() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     fetchCoupons();
-  }, []);
+  }, [fetchCoupons]);
 
   const openCouponModal = (coupon = null) => {
     setTempCoupon(coupon);

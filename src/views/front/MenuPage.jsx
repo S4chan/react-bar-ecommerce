@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router";
 import axios from "axios";
 import ReactLoading from "react-loading";
@@ -87,7 +87,7 @@ export default function MenuPage() {
     setWishList(newWishList);
   };
 
-  const getAllProducts = async () => {
+  const getAllProducts = useCallback(async () => {
     try {
       const res = await axios.get(`${BASE_URL}/api/${API_PATH}/products/all`);
       if (res.data && res.data.success) {
@@ -96,9 +96,9 @@ export default function MenuPage() {
     } catch (error) {
       console.error("取得所有產品失敗:", error);
     }
-  };
+  }, []);
 
-  const getCart = async () => {
+  const getCart = useCallback(async () => {
     try {
       const res = await axios.get(`${BASE_URL}/api/${API_PATH}/cart`);
       dispatch(updateCartData(res.data.data));
@@ -106,7 +106,7 @@ export default function MenuPage() {
       console.error(error);
       alert("取得購物車失敗");
     }
-  };
+  }, [dispatch]);
 
   const addCartItem = async (product_id, qty) => {
     setIsLoading(true);
@@ -129,38 +129,41 @@ export default function MenuPage() {
   useEffect(() => {
     getCart();
     getAllProducts();
-  }, []);
+  }, [getCart, getAllProducts]);
 
-  const getProducts = async (page = 1) => {
-    setScreenLoading(true);
-    try {
-      if (selectesCategory === "收藏") {
-        const wishListProducts = allProducts.filter((p) => wishList[p.id]);
-        setProducts(wishListProducts);
-        setPageInfo({});
-      } else {
-        const categoryQuery =
-          selectesCategory === "全部" ? "" : `&category=${selectesCategory}`;
-
-        const res = await axios.get(
-          `${BASE_URL}/api/${API_PATH}/products?page=${page}${categoryQuery}`
-        );
-
-        if (res.data && res.data.success) {
-          setProducts(res.data.products);
-          setPageInfo(res.data.pagination || {});
+  const getProducts = useCallback(
+    async (page = 1) => {
+      setScreenLoading(true);
+      try {
+        if (selectesCategory === "收藏") {
+          const wishListProducts = allProducts.filter((p) => wishList[p.id]);
+          setProducts(wishListProducts);
+          setPageInfo({});
         } else {
-          console.error("API 回傳資料格式錯誤", res.data);
-          alert("API 資料格式錯誤");
+          const categoryQuery =
+            selectesCategory === "全部" ? "" : `&category=${selectesCategory}`;
+
+          const res = await axios.get(
+            `${BASE_URL}/api/${API_PATH}/products?page=${page}${categoryQuery}`
+          );
+
+          if (res.data && res.data.success) {
+            setProducts(res.data.products);
+            setPageInfo(res.data.pagination || {});
+          } else {
+            console.error("API 回傳資料格式錯誤", res.data);
+            alert("API 資料格式錯誤");
+          }
         }
+      } catch (error) {
+        console.error("取得產品失敗:", error);
+        alert("取得產品失敗");
+      } finally {
+        setScreenLoading(false);
       }
-    } catch (error) {
-      console.error("取得產品失敗:", error);
-      alert("取得產品失敗");
-    } finally {
-      setScreenLoading(false);
-    }
-  };
+    },
+    [selectesCategory, wishList, allProducts]
+  );
 
   const categories = [
     "全部",
@@ -170,7 +173,7 @@ export default function MenuPage() {
 
   useEffect(() => {
     getProducts(1);
-  }, [selectesCategory, wishList]);
+  }, [getProducts]);
 
   const pageChangeHandler = (page) => {
     getProducts(page);

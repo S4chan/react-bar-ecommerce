@@ -1,6 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router";
 import { updateCartData } from "../store/cartSlice";
@@ -19,7 +18,7 @@ export default function Navbar() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const getCart = async () => {
+  const getCart = useCallback(async () => {
     try {
       const res = await axios.get(`${BASE_URL}/api/${API_PATH}/cart`);
       dispatch(updateCartData(res.data.data));
@@ -27,10 +26,11 @@ export default function Navbar() {
       console.error(error);
       alert("取得購物車失敗");
     }
-  };
+  }, [dispatch]);
+
   useEffect(() => {
     getCart();
-  }, []);
+  }, [getCart]);
 
   return (
     <>

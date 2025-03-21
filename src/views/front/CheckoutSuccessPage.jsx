@@ -4,6 +4,7 @@ import { updateCartData } from "../../store/cartSlice";
 import { useEffect } from "react";
 import endImg from "../../assets/images/1hgu18al.png";
 import axios from "axios";
+import { useCallback } from "react";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -11,7 +12,7 @@ const API_PATH = import.meta.env.VITE_API_PATH;
 export default function CheckoutSuccessPage() {
   const dispatch = useDispatch();
 
-  const getCart = async () => {
+  const getCart = useCallback(async () => {
     try {
       const res = await axios.get(`${BASE_URL}/api/${API_PATH}/cart`);
       dispatch(updateCartData(res.data.data));
@@ -19,10 +20,10 @@ export default function CheckoutSuccessPage() {
       console.error(error);
       alert("取得購物車失敗");
     }
-  };
+  }, [dispatch]);
   useEffect(() => {
     getCart();
-  }, []);
+  }, [getCart]);
 
   return (
     <div className="container-fluid">

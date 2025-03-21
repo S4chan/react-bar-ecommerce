@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
@@ -63,7 +63,7 @@ export default function CheckoutFormPage() {
     checkout(userInfo);
   });
 
-  const getCart = async () => {
+  const getCart = useCallback(async () => {
     try {
       const res = await axios.get(`${BASE_URL}/api/${API_PATH}/cart`);
       setCart(res.data.data);
@@ -71,10 +71,11 @@ export default function CheckoutFormPage() {
       console.error(error);
       alert("取得購物車失敗");
     }
-  };
+  }, []);
+
   useEffect(() => {
     getCart();
-  }, []);
+  }, [getCart]);
 
   return (
     <div className="container mt-7">

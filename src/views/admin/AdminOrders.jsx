@@ -1,7 +1,7 @@
 import OrderModal from "../../components/OrderModal";
 import DelOrderModal from "../../components/DelOrderModal";
 import Toast from "../../components/Toast";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { pushMessage } from "../../store/toastSlice";
@@ -24,7 +24,7 @@ export default function AdminOrders() {
   const [localReservations, setLocalReservations] = useState([]);
   const dispatch = useDispatch();
 
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     try {
       const token = localStorage.getItem("hexToken");
       const response = await axios.get(
@@ -48,7 +48,7 @@ export default function AdminOrders() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     fetchOrders();
@@ -56,7 +56,7 @@ export default function AdminOrders() {
       localStorage.getItem("reservations") || "[]"
     );
     setLocalReservations(reservations);
-  }, [dispatch]);
+  }, [fetchOrders]);
 
   const openOrderModal = (order) => {
     setTempOrder(order);
