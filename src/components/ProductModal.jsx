@@ -31,7 +31,7 @@ export default function ProductModal({
       const modalElement = productModalRef.current;
 
       if (modalInstance.current) {
-        modalInstance.current?.dispose();
+        modalInstance.current.dispose();
         modalInstance.current = null;
       }
 
@@ -42,9 +42,6 @@ export default function ProductModal({
 
       const handleHidden = () => {
         setIsOpen(false);
-        document.body.classList.remove("modal-open");
-        document.body.style.overflow = "";
-        document.body.style.paddingRight = "";
       };
 
       modalElement.addEventListener("hidden.bs.modal", handleHidden);
@@ -53,12 +50,9 @@ export default function ProductModal({
       return () => {
         modalElement.removeEventListener("hidden.bs.modal", handleHidden);
         if (modalInstance.current) {
-          modalInstance.current?.dispose();
+          modalInstance.current.dispose();
           modalInstance.current = null;
         }
-        document.body.classList.remove("modal-open");
-        document.body.style.overflow = "";
-        document.body.style.paddingRight = "";
       };
     }
   }, [isOpen, setIsOpen]);
@@ -68,9 +62,6 @@ export default function ProductModal({
   const closeProductModal = () => {
     if (modalInstance.current) {
       modalInstance.current.hide();
-      document.body.classList.remove("modal-open");
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
     }
   };
 

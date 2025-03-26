@@ -22,14 +22,8 @@ export default function AdminCoupons() {
 
   const fetchCoupons = useCallback(async () => {
     try {
-      const token = localStorage.getItem("hexToken");
       const response = await axios.get(
-        `${BASE_URL}/api/${API_PATH}/admin/coupons`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
+        `${BASE_URL}/api/${API_PATH}/admin/coupons`
       );
       const couponsArray = Object.values(response.data.coupons || {});
       setCoupons(couponsArray);
@@ -70,23 +64,6 @@ export default function AdminCoupons() {
           <button className="btn btn-primary" onClick={() => openCouponModal()}>
             新增優惠券
           </button>
-        </div>
-
-        <div className="container-fluid">
-          {loading && (
-            <div
-              className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75"
-              style={{ zIndex: 9999 }}
-            >
-              <ReactLoading
-                type="spinningBubbles"
-                color="#6c757d"
-                height={100}
-                width={100}
-                className="position-fixed top-50 start-50 translate-middle"
-              />
-            </div>
-          )}
         </div>
 
         {coupons.length === 0 ? (
@@ -142,6 +119,20 @@ export default function AdminCoupons() {
                 </tr>
               ))}
             </tbody>
+            {loading && (
+              <div
+                className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75"
+                style={{ zIndex: 9999 }}
+              >
+                <ReactLoading
+                  type="spinningBubbles"
+                  color="#6c757d"
+                  height={100}
+                  width={100}
+                  className="position-fixed top-50 start-50 translate-middle"
+                />
+              </div>
+            )}
           </table>
         )}
       </div>

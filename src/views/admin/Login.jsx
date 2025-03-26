@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
-import { useEffect } from "react";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -12,27 +11,6 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  useEffect(() => {
-    const token = localStorage.getItem("hexToken");
-
-    if (token) {
-      axios.defaults.headers.common["Authorization"] = token;
-
-      const checkToken = async () => {
-        try {
-          await axios.post(`${BASE_URL}/api/user/check`);
-          navigate("/admin/home");
-        } catch (error) {
-          console.error("Token 驗證失敗", error);
-          localStorage.removeItem("hexToken");
-          localStorage.removeItem("hexTokenExpired");
-        }
-      };
-
-      checkToken();
-    }
-  }, [navigate]);
 
   const onSubmit = async (data) => {
     try {

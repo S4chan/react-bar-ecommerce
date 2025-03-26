@@ -70,10 +70,12 @@ export default function CouponModal({
       });
 
       const handleHidden = () => {
+        // 清理 body 的樣式
+        document.body.removeAttribute("data-bs-overflow");
+        document.body.removeAttribute("data-bs-padding-right");
+        document.body.style.removeProperty("overflow");
+        document.body.style.removeProperty("padding-right");
         setIsOpen(false);
-        document.body.classList.remove("modal-open");
-        document.body.style.overflow = "";
-        document.body.style.paddingRight = "";
       };
 
       modalElement.addEventListener("hidden.bs.modal", handleHidden);
@@ -85,9 +87,6 @@ export default function CouponModal({
           modalInstance.current?.dispose();
           modalInstance.current = null;
         }
-        document.body.classList.remove("modal-open");
-        document.body.style.overflow = "";
-        document.body.style.paddingRight = "";
       };
     }
   }, [isOpen, setIsOpen]);
@@ -95,9 +94,6 @@ export default function CouponModal({
   const closeCouponModal = () => {
     if (modalInstance.current) {
       modalInstance.current.hide();
-      document.body.classList.remove("modal-open");
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
     }
   };
 

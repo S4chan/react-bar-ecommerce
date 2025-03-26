@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Modal } from "bootstrap";
 import axios from "axios";
 import PropTypes from "prop-types";
@@ -16,22 +16,15 @@ export default function OrderModal({
 }) {
   const orderModalRef = useRef(null);
   const modalInstance = useRef(null);
-  const [modalData, setModalData] = useState(null);
   const token = localStorage.getItem("hexToken");
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (tempOrder) {
-      setModalData(tempOrder);
-    }
-  }, [tempOrder]);
-
-  useEffect(() => {
-    if (isOpen && orderModalRef.current && modalData) {
+    if (isOpen && orderModalRef.current && tempOrder) {
       const modalElement = orderModalRef.current;
 
       if (modalInstance.current) {
-        modalInstance.current?.dispose();
+        modalInstance.current.dispose();
         modalInstance.current = null;
       }
 
@@ -42,9 +35,6 @@ export default function OrderModal({
 
       const handleHidden = () => {
         setIsOpen(false);
-        document.body.classList.remove("modal-open");
-        document.body.style.overflow = "";
-        document.body.style.paddingRight = "";
       };
 
       modalElement.addEventListener("hidden.bs.modal", handleHidden);
@@ -53,22 +43,16 @@ export default function OrderModal({
       return () => {
         modalElement.removeEventListener("hidden.bs.modal", handleHidden);
         if (modalInstance.current) {
-          modalInstance.current?.dispose();
+          modalInstance.current.dispose();
           modalInstance.current = null;
         }
-        document.body.classList.remove("modal-open");
-        document.body.style.overflow = "";
-        document.body.style.paddingRight = "";
       };
     }
-  }, [isOpen, setIsOpen, modalData]);
+  }, [isOpen, setIsOpen, tempOrder]);
 
   const closeOrderModal = () => {
     if (modalInstance.current) {
       modalInstance.current.hide();
-      document.body.classList.remove("modal-open");
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
     }
   };
 
@@ -76,37 +60,32 @@ export default function OrderModal({
     const { value, name } = e.target;
     if (name.includes(".")) {
       const [parent, child] = name.split(".");
-      setModalData((prev) => ({
-        ...prev,
-        [parent]: {
-          ...prev[parent],
-          [child]: value,
-        },
-      }));
+      tempOrder[parent] = {
+        ...tempOrder[parent],
+        [child]: value,
+      };
     } else {
-      setModalData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      tempOrder[name] = value;
     }
   };
 
   const updateOrder = async () => {
-    if (!modalData) return;
+    if (!tempOrder) return;
 
     try {
       const updateData = {
         data: {
-          create_at: modalData.create_at,
-          is_paid: modalData.is_paid,
-          message: modalData.message,
-          products: modalData.products,
-          user: modalData.user,
-          num: modalData.num,
+          create_at: tempOrder.create_at,
+          is_paid: tempOrder.is_paid,
+          message: tempOrder.message,
+          products: tempOrder.products,
+          user: tempOrder.user,
+          num: tempOrder.num,
         },
       };
+
       await axios.put(
-        `${BASE_URL}/api/${API_PATH}/admin/order/${modalData.id}`,
+        `${BASE_URL}/api/${API_PATH}/admin/order/${tempOrder.id}`,
         updateData,
         {
           headers: {
@@ -121,15 +100,11 @@ export default function OrderModal({
           status: "success",
         })
       );
-      fetchOrders();
+
+      await fetchOrders();
       closeOrderModal();
     } catch (error) {
       console.error("更新訂單失敗:", error.response?.data);
-      console.error("錯誤詳情:", {
-        status: error.response?.status,
-        statusText: error.response?.statusText,
-        data: error.response?.data,
-      });
       const errorMessage = error.response?.data?.message || "訂單更新失敗";
       dispatch(
         pushMessage({
@@ -142,7 +117,7 @@ export default function OrderModal({
     }
   };
 
-  if (!modalData) {
+  if (!tempOrder) {
     return null;
   }
 
@@ -178,7 +153,7 @@ export default function OrderModal({
                   <input
                     type="text"
                     className="form-control"
-                    value={modalData.id || ""}
+                    value={tempOrder.id || ""}
                     disabled
                   />
                 </div>
@@ -188,7 +163,7 @@ export default function OrderModal({
                     type="text"
                     className="form-control"
                     value={new Date(
-                      modalData.create_at * 1000
+                      tempOrder.create_at * 1000
                     ).toLocaleString()}
                     disabled
                   />
@@ -198,7 +173,7 @@ export default function OrderModal({
                   <select
                     name="is_paid"
                     className="form-select"
-                    defaultValue={modalData.is_paid ? 1 : 0}
+                    defaultValue={tempOrder.is_paid ? 1 : 0}
                     onBlur={handleInputBlur}
                   >
                     <option value={0}>未付款</option>
@@ -215,7 +190,7 @@ export default function OrderModal({
                     type="text"
                     name="user.name"
                     className="form-control"
-                    defaultValue={modalData.user?.name || ""}
+                    defaultValue={tempOrder.user?.name || ""}
                     onBlur={handleInputBlur}
                   />
                 </div>
@@ -225,7 +200,7 @@ export default function OrderModal({
                     type="text"
                     name="user.tel"
                     className="form-control"
-                    defaultValue={modalData.user?.tel || ""}
+                    defaultValue={tempOrder.user?.tel || ""}
                     onBlur={handleInputBlur}
                   />
                 </div>
@@ -235,7 +210,7 @@ export default function OrderModal({
                     type="text"
                     name="user.email"
                     className="form-control"
-                    defaultValue={modalData.user?.email || ""}
+                    defaultValue={tempOrder.user?.email || ""}
                     onBlur={handleInputBlur}
                   />
                 </div>
@@ -245,7 +220,7 @@ export default function OrderModal({
                     type="text"
                     name="user.address"
                     className="form-control"
-                    defaultValue={modalData.user?.address || ""}
+                    defaultValue={tempOrder.user?.address || ""}
                     onBlur={handleInputBlur}
                   />
                 </div>
@@ -263,7 +238,7 @@ export default function OrderModal({
                     </tr>
                   </thead>
                   <tbody>
-                    {Object.values(modalData.products || {}).map((product) => (
+                    {Object.values(tempOrder.products || {}).map((product) => (
                       <tr key={product.id}>
                         <td>{product.product?.title || ""}</td>
                         <td>{product.qty || 0}</td>
@@ -279,7 +254,7 @@ export default function OrderModal({
                       <td colSpan="3" className="text-end">
                         總計：
                       </td>
-                      <td>{modalData.total || 0}</td>
+                      <td>{tempOrder.total || 0}</td>
                     </tr>
                   </tfoot>
                 </table>
@@ -291,7 +266,7 @@ export default function OrderModal({
                   <textarea
                     name="message"
                     className="form-control"
-                    defaultValue={modalData.message || ""}
+                    defaultValue={tempOrder.message || ""}
                     onBlur={handleInputBlur}
                     rows={3}
                   ></textarea>
@@ -329,6 +304,7 @@ OrderModal.propTypes = {
     is_paid: PropTypes.bool,
     message: PropTypes.string,
     total: PropTypes.number,
+    num: PropTypes.number,
     user: PropTypes.shape({
       name: PropTypes.string,
       tel: PropTypes.string,

@@ -198,4 +198,16 @@ $transition-speed: 0.3s;
   .homeEvent-item {
     height: 150px;
   }
+
+  .main-image .bgLogo h1 {
+    display: none;
+  }
+
+  .introduce-container {
+    .supply-text p,
+    .facility-text p {
+      line-height: 1.5;
+      letter-spacing: 2px;
+    }
+  }
 }

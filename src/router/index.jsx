@@ -70,10 +70,6 @@ const routes = [
     ),
     children: [
       {
-        index: true,
-        element: <Login />,
-      },
-      {
         path: "home",
         element: <AdminHome />,
       },
@@ -90,6 +86,10 @@ const routes = [
         element: <AdminCoupons />,
       },
     ],
+  },
+  {
+    path: "/admin/login",
+    element: <Login />,
   },
   {
     path: "*",

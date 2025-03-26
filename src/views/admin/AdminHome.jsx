@@ -21,23 +21,11 @@ export default function AdminHome() {
     const fetchStatistics = async () => {
       try {
         setLoading(true);
-        const token = localStorage.getItem("hexToken");
-
         const productsResponse = await axios.get(
-          `${BASE_URL}/api/${API_PATH}/admin/products/all`,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
+          `${BASE_URL}/api/${API_PATH}/admin/products/all`
         );
         const ordersResponse = await axios.get(
-          `${BASE_URL}/api/${API_PATH}/admin/orders`,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
+          `${BASE_URL}/api/${API_PATH}/admin/orders`
         );
         const localReservations = JSON.parse(
           localStorage.getItem("reservations") || "[]"

@@ -39,7 +39,7 @@ export default function Footer() {
             </form>
           </div>
           <div
-            className="row text-center py-3"
+            className="row text-center py-3 m-0"
             style={{ color: "#303841", backgroundColor: "#e3e3e3" }}
           >
             <div

@@ -202,10 +202,10 @@ export default function CartPage() {
 
   return (
     <div className="container-fluid">
-      <div className="container  mb-5">
+      <div className="container mb-5">
         <div className="mt-7">
           <h3 className="fw-bold h1 mb-3" style={{ color: "#e3e3e3" }}>
-            菜單
+            清單
           </h3>
           <div className="row">
             <div className="col-lg-8">
@@ -220,104 +220,190 @@ export default function CartPage() {
                       清空購物車
                     </button>
                   </div>
-                  <table className="table  text-center align-middle">
-                    <thead className="table-dark">
-                      <tr>
-                        <th scope="col" className="ps-0">
-                          產品名稱
-                        </th>
-                        <th scope="col">數量</th>
-                        <th scope="col">價格</th>
-                        <th scope="col">刪除</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {cart.carts?.map((cartItem) => (
-                        <tr key={cartItem.id}>
-                          {/* 產品名稱 */}
-                          <td className="d-flex align-items-center justify-content-start py-3">
+                  <div className="d-none d-sm-block">
+                    <table className="table align-middle table-dark table-striped">
+                      <thead className="table-dark border-bottom border-secondary">
+                        <tr>
+                          <th scope="col">產品名稱</th>
+                          <th scope="col">數量</th>
+                          <th scope="col">價格</th>
+                          <th scope="col">刪除</th>
+                        </tr>
+                      </thead>
+                      <tbody className="border-secondary">
+                        {cart.carts?.map((cartItem) => (
+                          <tr
+                            key={cartItem.id}
+                            className="border-bottom border-secondary"
+                          >
+                            <td className="d-flex align-items-center py-3">
+                              <img
+                                src={cartItem.product.imageUrl}
+                                alt={cartItem.product.title}
+                                className="rounded"
+                                style={{
+                                  width: "72px",
+                                  height: "72px",
+                                  objectFit: "cover",
+                                }}
+                              />
+                              <p className="mb-0 fw-bold ms-3 text-white">
+                                {cartItem.product.title}
+                              </p>
+                            </td>
+                            <td className="align-middle">
+                              <div
+                                className="input-group input-group-sm"
+                                style={{ width: "120px" }}
+                              >
+                                <button
+                                  className="btn btn-outline-light border-0"
+                                  type="button"
+                                  onClick={() =>
+                                    updataCartItem(
+                                      cartItem.id,
+                                      cartItem.product.id,
+                                      cartItem.qty - 1
+                                    )
+                                  }
+                                  disabled={cartItem.qty <= 1}
+                                >
+                                  <i className="bi bi-dash-lg"></i>
+                                </button>
+                                <input
+                                  type="text"
+                                  className="form-control text-center border-0 shadow-none bg-transparent text-white"
+                                  value={cartItem.qty}
+                                  onChange={(e) =>
+                                    updataCartItem(
+                                      cartItem.id,
+                                      cartItem.product.id,
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                                <button
+                                  className="btn btn-outline-light border-0"
+                                  type="button"
+                                  onClick={() =>
+                                    updataCartItem(
+                                      cartItem.id,
+                                      cartItem.product.id,
+                                      cartItem.qty + 1
+                                    )
+                                  }
+                                >
+                                  <i className="bi bi-plus-lg"></i>
+                                </button>
+                              </div>
+                            </td>
+                            <td className="align-middle text-white">
+                              <p className="mb-0">NT${cartItem.final_total}</p>
+                            </td>
+                            <td className="align-middle">
+                              <button
+                                className="btn btn-outline-danger border-0"
+                                type="button"
+                                onClick={() => removeCartItem(cartItem.id)}
+                              >
+                                <i className="bi bi-x-lg"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* 手機版卡片式布局 */}
+                  <div className="d-sm-none">
+                    {cart.carts?.map((cartItem) => (
+                      <div
+                        key={cartItem.id}
+                        className="card mb-3 border-0 bg-transparent"
+                      >
+                        <div className="row g-0">
+                          <div className="col-4">
                             <img
                               src={cartItem.product.imageUrl}
                               alt={cartItem.product.title}
-                              className="rounded"
-                              style={{
-                                width: "72px",
-                                height: "72px",
-                                objectFit: "cover",
-                              }}
+                              className="w-100 h-100"
+                              style={{ objectFit: "cover" }}
                             />
-                            <p className="mb-0 fw-bold ms-3">
-                              {cartItem.product.title}
-                            </p>
-                          </td>
-
-                          {/* 數量 */}
-                          <td style={{ maxWidth: "160px" }}>
-                            <div className="input-group">
-                              <button
-                                className="btn btn-outline-dark border-0"
-                                type="button"
-                                onClick={() =>
-                                  updataCartItem(
-                                    cartItem.id,
-                                    cartItem.product.id,
-                                    cartItem.qty - 1
-                                  )
-                                }
-                              >
-                                <i className="bi bi-dash-lg"></i>
-                              </button>
-
-                              <input
-                                type="text"
-                                className="form-control text-center border-0 shadow-none"
-                                value={cartItem.qty}
-                                onChange={(e) =>
-                                  updataCartItem(
-                                    cartItem.id,
-                                    cartItem.product.id,
-                                    e.target.value
-                                  )
-                                }
-                              />
-
-                              <button
-                                className="btn btn-outline-dark border-0"
-                                type="button"
-                                onClick={() =>
-                                  updataCartItem(
-                                    cartItem.id,
-                                    cartItem.product.id,
-                                    cartItem.qty + 1
-                                  )
-                                }
-                              >
-                                <i className="bi bi-plus-lg"></i>
-                              </button>
+                          </div>
+                          <div className="col-8">
+                            <div className="card-body p-2 h-100 d-flex flex-column">
+                              <div className="d-flex justify-content-between h-100">
+                                <div className="d-flex flex-column justify-content-between">
+                                  <h5 className="card-title mb-2 text-white">
+                                    {cartItem.product.title}
+                                  </h5>
+                                  <p className="card-text mb-2 text-white">
+                                    NT${cartItem.final_total}
+                                  </p>
+                                  <div
+                                    className="input-group input-group-sm"
+                                    style={{ width: "120px" }}
+                                  >
+                                    <button
+                                      className="btn btn-outline-light border-0"
+                                      type="button"
+                                      onClick={() =>
+                                        updataCartItem(
+                                          cartItem.id,
+                                          cartItem.product.id,
+                                          cartItem.qty - 1
+                                        )
+                                      }
+                                      disabled={cartItem.qty <= 1}
+                                    >
+                                      <i className="bi bi-dash-lg"></i>
+                                    </button>
+                                    <input
+                                      type="text"
+                                      className="form-control text-center border-0 shadow-none bg-transparent text-white"
+                                      value={cartItem.qty}
+                                      onChange={(e) =>
+                                        updataCartItem(
+                                          cartItem.id,
+                                          cartItem.product.id,
+                                          e.target.value
+                                        )
+                                      }
+                                    />
+                                    <button
+                                      className="btn btn-outline-light border-0"
+                                      type="button"
+                                      onClick={() =>
+                                        updataCartItem(
+                                          cartItem.id,
+                                          cartItem.product.id,
+                                          cartItem.qty + 1
+                                        )
+                                      }
+                                    >
+                                      <i className="bi bi-plus-lg"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                                <div className="d-flex align-items-center">
+                                  <button
+                                    className="btn btn-outline-danger border-0 p-0"
+                                    type="button"
+                                    onClick={() => removeCartItem(cartItem.id)}
+                                  >
+                                    <i className="bi bi-x-lg"></i>
+                                  </button>
+                                </div>
+                              </div>
                             </div>
-                          </td>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
 
-                          {/* 價格 */}
-                          <td>
-                            <p className="mb-0">NT${cartItem.final_total}</p>
-                          </td>
-
-                          {/* 刪除按鈕 */}
-                          <td>
-                            <button
-                              className="btn btn-outline-danger border-0"
-                              type="button"
-                              onClick={() => removeCartItem(cartItem.id)}
-                            >
-                              <i className="bi bi-x-lg"></i>
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-
-                  <div className="input-group w-50 mb-3">
+                  <div className="input-group mb-3">
                     <input
                       aria-describedby="button-addon2"
                       aria-label="Recipient's username"

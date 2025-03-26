@@ -13,7 +13,12 @@ export default function AdminNavbar() {
     <>
       <nav className={"top-nav"}>
         <ul className={`top-ul sidebar ${isSidebarOpen ? "active" : ""}`}>
-          <li onClick={showSidebar}>
+          <li
+            onClick={(e) => {
+              e.preventDefault();
+              showSidebar();
+            }}
+          >
             <a href="#">
               <i className="bi bi-x"></i>
             </a>
@@ -49,8 +54,14 @@ export default function AdminNavbar() {
           <li className="hideOnMobile">
             <Link to="/admin/coupons">優惠卷</Link>
           </li>
-          <li className="menuButton" onClick={() => showSidebar()}>
-            <a href="#">
+          <li className="menuButton">
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                showSidebar();
+              }}
+            >
               <i className="bi bi-list"></i>
             </a>
           </li>

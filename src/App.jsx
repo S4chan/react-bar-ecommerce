@@ -4,11 +4,7 @@ import routes from "./router/index.jsx";
 const router = createHashRouter(routes);
 
 function App() {
-  return (
-    <RouterProvider router={router}>
-      <h1>123</h1>
-    </RouterProvider>
-  );
+  return <RouterProvider router={router}></RouterProvider>;
 }
 
 export default App;

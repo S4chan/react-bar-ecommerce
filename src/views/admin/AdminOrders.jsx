@@ -26,6 +26,7 @@ export default function AdminOrders() {
 
   const fetchOrders = useCallback(async () => {
     try {
+      setLoading(true);
       const token = localStorage.getItem("hexToken");
       const response = await axios.get(
         `${BASE_URL}/api/${API_PATH}/admin/orders`,
@@ -110,23 +111,6 @@ export default function AdminOrders() {
           >
             刪除所有訂單
           </button>
-        </div>
-
-        <div className="container-fluid">
-          {loading && (
-            <div
-              className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75"
-              style={{ zIndex: 9999 }}
-            >
-              <ReactLoading
-                type="spinningBubbles"
-                color="#6c757d"
-                height={100}
-                width={100}
-                className="position-fixed top-50 start-50 translate-middle"
-              />
-            </div>
-          )}
         </div>
 
         {orders.length === 0 ? (
@@ -293,6 +277,20 @@ export default function AdminOrders() {
                 </tbody>
               </table>
             </div>
+            {loading && (
+              <div
+                className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75"
+                style={{ zIndex: 9999 }}
+              >
+                <ReactLoading
+                  type="spinningBubbles"
+                  color="#6c757d"
+                  height={100}
+                  width={100}
+                  className="position-fixed top-50 start-50 translate-middle"
+                />
+              </div>
+            )}
           </>
         )}
       </div>

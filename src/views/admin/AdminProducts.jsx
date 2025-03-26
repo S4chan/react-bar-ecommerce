@@ -34,14 +34,8 @@ export default function AdminProducts() {
   const catchProducts = async (page = 1) => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("hexToken");
       const products = await axios.get(
-        `${BASE_URL}/api/${API_PATH}/admin/products?page=${page}`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
+        `${BASE_URL}/api/${API_PATH}/admin/products?page=${page}`
       );
       setProducts(products.data.products);
       setPageInfo(products.data.pagination);
@@ -72,13 +66,7 @@ export default function AdminProducts() {
 
   const handleLogout = async () => {
     try {
-      const token = localStorage.getItem("hexToken");
-      const config = {
-        headers: {
-          Authorization: token,
-        },
-      };
-      await axios.post(`${BASE_URL}/logout`, {}, config);
+      await axios.post(`${BASE_URL}/logout`);
       navigate("/");
     } catch (error) {
       console.error(error);
