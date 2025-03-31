@@ -93,13 +93,25 @@ $w-color: #e3e3e3;
   .menuButton {
     display: block;
   }
+
+  .top-nav {
+    .logo {
+      img {
+        transform: scale(0.85);
+      }
+    }
+  }
 }
 
 @media (max-width: 400px) {
   .sidebar {
     width: 100%;
   }
-  .logo {
-    display: none;
+  .top-nav {
+    .logo {
+      img {
+        transform: scale(0.8);
+      }
+    }
   }
 }

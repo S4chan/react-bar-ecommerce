@@ -1,9 +1,23 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import logoDark from "../assets/icons/logo-d.png";
+import axios from "axios";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export default function AdminNavbar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${BASE_URL}/logout`);
+      navigate("/login");
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
 
   const showSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -35,6 +49,18 @@ export default function AdminNavbar() {
           <li>
             <Link to="/admin/coupons">優惠卷</Link>
           </li>
+          <li className="logout">
+            <a
+              href="#"
+              className="bg-danger text-white"
+              onClick={(e) => {
+                e.preventDefault();
+                handleLogout();
+              }}
+            >
+              登出
+            </a>
+          </li>
         </ul>
         <ul>
           <li className="logo">
@@ -53,6 +79,18 @@ export default function AdminNavbar() {
           </li>
           <li className="hideOnMobile">
             <Link to="/admin/coupons">優惠卷</Link>
+          </li>
+          <li className="logout hideOnMobile">
+            <a
+              href="#"
+              className="bg-danger text-white"
+              onClick={(e) => {
+                e.preventDefault();
+                handleLogout();
+              }}
+            >
+              登出
+            </a>
           </li>
           <li className="menuButton">
             <a

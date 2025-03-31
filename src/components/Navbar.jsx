@@ -47,19 +47,27 @@ export default function Navbar() {
             </a>
           </li>
           <li>
-            <Link to="/">HOME</Link>
+            <Link to="/" onClick={() => setIsSidebarOpen(false)}>
+              HOME
+            </Link>
           </li>
           <li>
-            <Link to="/about">ABOUT</Link>
+            <Link to="/about" onClick={() => setIsSidebarOpen(false)}>
+              ABOUT
+            </Link>
           </li>
           <li>
-            <Link to="/menu">MENU</Link>
+            <Link to="/menu" onClick={() => setIsSidebarOpen(false)}>
+              MENU
+            </Link>
           </li>
           <li>
-            <Link to="/event">活動</Link>
+            <Link to="/event" onClick={() => setIsSidebarOpen(false)}>
+              活動
+            </Link>
           </li>
           <li>
-            <Link to="/cart">
+            <Link to="/cart" onClick={() => setIsSidebarOpen(false)}>
               <div className="position-relative">
                 <i className="fas fa-shopping-cart"></i>
                 <span
