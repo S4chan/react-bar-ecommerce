@@ -1,8 +1,8 @@
 import Marquee from "react-fast-marquee";
-import studentDrinkImg from "../../assets/images/rw32uvoi.png";
-import tableSoccerImg from "../../assets/images/aahvro9c.png";
-import ladiesNightImg from "../../assets/images/ve7qxc9y.png";
-import bartenderImg from "../../assets/images/odjrvook.png";
+import studentDrinkImg from "../../assets/images/rw32uvoi.webp";
+import tableSoccerImg from "../../assets/images/aahvro9c.webp";
+import ladiesNightImg from "../../assets/images/ve7qxc9y.webp";
+import bartenderImg from "../../assets/images/odjrvook.webp";
 
 export default function EventPage() {
   const events = [

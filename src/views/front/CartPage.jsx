@@ -7,6 +7,9 @@ import { updateCartData } from "../../store/cartSlice";
 import { useForm } from "react-hook-form";
 import MessageModal from "../../components/MessageModal";
 
+import mainImage from "../../assets/images/2c1qr805.webp";
+import logoW from "../../assets/icons/logo-w.png";
+
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
@@ -201,12 +204,24 @@ export default function CartPage() {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid p-0">
+      <div
+        className="position-relative d-flex align-items-center justify-content-center"
+        style={{
+          minHeight: "400px",
+          backgroundImage: `url(${mainImage})`,
+          backgroundPosition: "center center",
+          backgroundSize: "cover",
+        }}
+      >
+        <img
+          src={logoW}
+          alt="white-logo"
+          style={{ width: "200px", height: "auto", display: "block" }}
+        />
+      </div>
       <div className="container mb-5">
         <div className="mt-7">
-          <h3 className="fw-bold h1 mb-3" style={{ color: "#e3e3e3" }}>
-            清單
-          </h3>
           <div className="row">
             <div className="col-lg-8">
               {cart.carts?.length > 0 ? (

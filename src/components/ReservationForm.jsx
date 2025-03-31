@@ -1,5 +1,5 @@
 import { useState } from "react";
-import reservationImg from "../assets/images/tun5vi6w.png";
+import reservationImg from "../assets/images/tun5vi6w.webp";
 import Toast from "../components/Toast";
 import { useDispatch } from "react-redux";
 import { pushMessage } from "../store/toastSlice";

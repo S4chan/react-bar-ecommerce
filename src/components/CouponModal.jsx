@@ -60,7 +60,7 @@ export default function CouponModal({
       const modalElement = couponModalRef.current;
 
       if (modalInstance.current) {
-        modalInstance.current?.dispose();
+        modalInstance.current.dispose();
         modalInstance.current = null;
       }
 
@@ -70,21 +70,18 @@ export default function CouponModal({
       });
 
       const handleHidden = () => {
-        // 清理 body 的樣式
-        document.body.removeAttribute("data-bs-overflow");
-        document.body.removeAttribute("data-bs-padding-right");
         document.body.style.removeProperty("overflow");
         document.body.style.removeProperty("padding-right");
         setIsOpen(false);
       };
 
       modalElement.addEventListener("hidden.bs.modal", handleHidden);
-      modalInstance.current?.show();
+      modalInstance.current.show();
 
       return () => {
         modalElement.removeEventListener("hidden.bs.modal", handleHidden);
         if (modalInstance.current) {
-          modalInstance.current?.dispose();
+          modalInstance.current.dispose();
           modalInstance.current = null;
         }
       };

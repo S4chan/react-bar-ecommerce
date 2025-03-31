@@ -9,7 +9,7 @@ import CartPage from "../views/front/CartPage";
 import NotFound from "../views/front/NotFound";
 import CheckoutFormPage from "../views/front/CheckoutFormPage";
 import CheckoutSuccessPage from "../views/front/CheckoutSuccessPage";
-import Login from "../views/admin/Login";
+import Login from "../views/front/Login";
 import AdminProducts from "../views/admin/AdminProducts";
 import AdminOrders from "../views/admin/AdminOrders";
 import ScrollToTop from "../components/ScrollToTop";
@@ -88,7 +88,7 @@ const routes = [
     ],
   },
   {
-    path: "/admin/login",
+    path: "/login",
     element: <Login />,
   },
   {

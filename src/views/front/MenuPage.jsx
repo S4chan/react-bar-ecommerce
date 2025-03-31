@@ -5,7 +5,7 @@ import ReactLoading from "react-loading";
 import Pagination from "../../components/Pagination";
 import { updateCartData } from "../../store/cartSlice";
 import { useDispatch } from "react-redux";
-import mainImage from "../../assets/images/2c1qr805.png";
+import mainImage from "../../assets/images/2c1qr805.webp";
 import logoW from "../../assets/icons/logo-w.png";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -192,7 +192,7 @@ export default function MenuPage() {
       >
         <img
           src={logoW}
-          alt=""
+          alt="white-logo"
           style={{ width: "200px", height: "auto", display: "block" }}
         />
       </div>

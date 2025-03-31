@@ -26,7 +26,7 @@ export default function AdminLayout() {
     const token = localStorage.getItem("hexToken");
 
     if (!token) {
-      navigate("/admin/login");
+      navigate("/login");
       return;
     }
 
@@ -37,7 +37,7 @@ export default function AdminLayout() {
         console.error("Token 驗證失敗", error);
         localStorage.removeItem("hexToken");
         localStorage.removeItem("hexTokenExpired");
-        navigate("/admin/login");
+        navigate("/login");
       }
     };
 

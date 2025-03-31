@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { useDispatch } from "react-redux";
 import { updateCartData } from "../../store/cartSlice";
 import { useEffect } from "react";
-import endImg from "../../assets/images/1hgu18al.png";
+import endImg from "../../assets/images/1hgu18al.webp";
 import axios from "axios";
 import { useCallback } from "react";
 

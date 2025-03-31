@@ -85,7 +85,7 @@ export default function Footer() {
               <h2 className="fw-bold">Service</h2>
               <p>Mon - Fri: 7pm - 2am</p>
               <p>Sat - Sun: 6pm - 2am</p>
-              <Link to="/admin/login">後臺登入</Link>
+              <Link to="/login">後臺登入</Link>
             </div>
           </div>
           <div
@@ -138,7 +138,7 @@ export default function Footer() {
                 <h2>Service</h2>
                 <p>Mon - Fri: 7pm - 2am</p>
                 <p>Sat - Sun: 6pm - 2am</p>
-                <Link to="/admin/login">後臺登入</Link>
+                <Link to="/login">後臺登入</Link>
               </div>
             </div>
 

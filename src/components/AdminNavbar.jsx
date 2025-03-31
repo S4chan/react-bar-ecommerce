@@ -39,7 +39,7 @@ export default function AdminNavbar() {
         <ul>
           <li className="logo">
             <a href="#">
-              <img src={logoDark} alt="w" />
+              <img src={logoDark} alt="Dark-logo" />
             </a>
           </li>
           <li className="hideOnMobile">

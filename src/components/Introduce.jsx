@@ -1,22 +1,22 @@
-import supplyOne from "../assets/images/eic6rxpb.png";
-import supplyThree from "../assets/images/yefoj5zo.png";
-import supplyTwo from "../assets/images/1hgu18al.png";
-import facilityOne from "../assets/images/hcbt6vya.png";
-import facilityTwo from "../assets/images/vu6xwcl5.png";
-import facilityThree from "../assets/images/aahvro9c.png";
+import supplyOne from "../assets/images/eic6rxpb.webp";
+import supplyThree from "../assets/images/yefoj5zo.webp";
+import supplyTwo from "../assets/images/1hgu18al.webp";
+import facilityOne from "../assets/images/hcbt6vya.webp";
+import facilityTwo from "../assets/images/vu6xwcl5.webp";
+import facilityThree from "../assets/images/aahvro9c.webp";
 
 export default function Introduce() {
   return (
     <div className="introduce my-5">
       <div className="introduce-container">
         <div className="supplyOne">
-          <img src={supplyOne} alt="" />
+          <img src={supplyOne} alt="Get wine" />
         </div>
         <div className="supplyTwo">
-          <img src={supplyTwo} alt="" />
+          <img src={supplyTwo} alt="Parties" />
         </div>
         <div className="supplyThree">
-          <img src={supplyThree} alt="" />
+          <img src={supplyThree} alt="Bartending" />
         </div>
         <div className="supply-text">
           <h2>服務</h2>
@@ -31,13 +31,13 @@ export default function Introduce() {
           </p>
         </div>
         <div className="facilityOne">
-          <img src={facilityOne} alt="" />
+          <img src={facilityOne} alt="Wine Cabinet" />
         </div>
         <div className="facilityTwo">
-          <img src={facilityTwo} alt="" />
+          <img src={facilityTwo} alt="Pool Table" />
         </div>
         <div className="facilityThree">
-          <img src={facilityThree} alt="" />
+          <img src={facilityThree} alt="Table football" />
         </div>
       </div>
     </div>

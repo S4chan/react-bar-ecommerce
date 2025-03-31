@@ -1,7 +1,7 @@
 import tba from "../../assets/icons/tba01.png";
 import bestFifty from "../../assets/icons/b50.png";
-import bgOne from "../../assets/images/th6lgkpy.png";
-import bgTwo from "../../assets/images/boujx88f.png";
+import bgOne from "../../assets/images/th6lgkpy.webp";
+import bgTwo from "../../assets/images/boujx88f.webp";
 
 export default function AboutPage() {
   return (

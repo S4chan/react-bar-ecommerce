@@ -1,19 +1,19 @@
 import { useEffect } from "react";
 import { Link } from "react-router";
 import Marquee from "react-fast-marquee";
-import mainImage from "../../assets/images/2c1qr805.png";
-import firstImage from "../../assets/images/90x8ll8k.png";
-import secondImage from "../../assets/images/g3otuuei.png";
-import thirdImage from "../../assets/images/f81x63zl.png";
+import mainImage from "../../assets/images/2c1qr805.webp";
+import subImage from "../../assets/images/50yq0ujq.webp";
+import firstImage from "../../assets/images/90x8ll8k.webp";
+import secondImage from "../../assets/images/g3otuuei.webp";
+import thirdImage from "../../assets/images/f81x63zl.webp";
 import logoW from "../../assets/icons/logo-w.png";
-import studentDrinkImg from "../../assets/images/rw32uvoi.png";
-import tableSoccerImg from "../../assets/images/aahvro9c.png";
-import ladiesNightImg from "../../assets/images/ve7qxc9y.png";
-import bartenderImg from "../../assets/images/odjrvook.png";
+import studentDrinkImg from "../../assets/images/rw32uvoi.webp";
+import tableSoccerImg from "../../assets/images/aahvro9c.webp";
+import ladiesNightImg from "../../assets/images/ve7qxc9y.webp";
+import bartenderImg from "../../assets/images/odjrvook.webp";
 import tba from "../../assets/icons/tba01.png";
 import bestFifty from "../../assets/icons/b50.png";
-import subImage from "../../assets/images/50yq0ujq.png";
-import cocktail from "../../assets/images/3xyn7soe.png";
+import cocktail from "../../assets/images/3xyn7soe.webp";
 
 import ReservationForm from "../../components/ReservationForm";
 import Introduce from "../../components/Introduce";
@@ -72,7 +72,11 @@ export default function HomePage() {
             data-aos-easing="ease-in-sine"
             className="col col-md-4 overlay-item"
           >
-            <img src={firstImage} alt="" className="img-fluid custom-img" />
+            <img
+              src={firstImage}
+              alt="Orange cocktail"
+              className="img-fluid custom-img"
+            />
           </div>
           <div
             data-aos="fade-down"
@@ -80,7 +84,11 @@ export default function HomePage() {
             data-aos-easing="ease-in-sine"
             className="col col-md-4 overlay-item"
           >
-            <img src={secondImage} alt="" className="img-fluid custom-img" />
+            <img
+              src={secondImage}
+              alt="Bartender"
+              className="img-fluid custom-img"
+            />
           </div>
           <div
             data-aos="fade-left"
@@ -88,7 +96,11 @@ export default function HomePage() {
             data-aos-easing="ease-in-sine"
             className="col col-md-4 overlay-item"
           >
-            <img src={thirdImage} alt="" className="img-fluid custom-img" />
+            <img
+              src={thirdImage}
+              alt="Pouring wine"
+              className="img-fluid custom-img"
+            />
           </div>
         </div>
       </div>
