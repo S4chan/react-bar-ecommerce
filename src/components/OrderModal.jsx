@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Modal } from "bootstrap";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { pushMessage } from "../store/toastSlice";
+import ReactLoading from "react-loading";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -14,6 +15,7 @@ export default function OrderModal({
   setIsOpen,
   fetchOrders,
 }) {
+  const [isLoading, setIsLoading] = useState(false);
   const orderModalRef = useRef(null);
   const modalInstance = useRef(null);
   const token = localStorage.getItem("hexToken");
@@ -39,15 +41,14 @@ export default function OrderModal({
 
       modalElement.addEventListener("hidden.bs.modal", handleHidden);
       modalInstance.current.show();
-
-      return () => {
-        modalElement.removeEventListener("hidden.bs.modal", handleHidden);
-        if (modalInstance.current) {
-          modalInstance.current.dispose();
-          modalInstance.current = null;
-        }
-      };
     }
+
+    return () => {
+      if (modalInstance.current) {
+        modalInstance.current.dispose();
+        modalInstance.current = null;
+      }
+    };
   }, [isOpen, setIsOpen, tempOrder]);
 
   const closeOrderModal = () => {
@@ -71,7 +72,7 @@ export default function OrderModal({
 
   const updateOrder = async () => {
     if (!tempOrder) return;
-
+    setIsLoading(true);
     try {
       const updateData = {
         data: {
@@ -100,7 +101,6 @@ export default function OrderModal({
           status: "success",
         })
       );
-
       await fetchOrders();
       closeOrderModal();
     } catch (error) {
@@ -114,6 +114,8 @@ export default function OrderModal({
           status: "failed",
         })
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -287,8 +289,18 @@ export default function OrderModal({
               type="button"
               className="btn btn-primary"
               onClick={updateOrder}
+              disabled={isLoading}
             >
-              更新訂單
+              {isLoading ? (
+                <ReactLoading
+                  type="spinningBubbles"
+                  color="#ffffff"
+                  height={20}
+                  width={20}
+                />
+              ) : (
+                "更新訂單"
+              )}
             </button>
           </div>
         </div>

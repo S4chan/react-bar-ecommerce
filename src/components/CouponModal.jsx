@@ -4,6 +4,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { pushMessage } from "../store/toastSlice";
+import ReactLoading from "react-loading";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -22,6 +23,7 @@ export default function CouponModal({
     due_date: "",
     is_enabled: 1,
   });
+  const [isLoading, setIsLoading] = useState(false);
   const couponModalRef = useRef(null);
   const modalInstance = useRef(null);
   const token = localStorage.getItem("hexToken");
@@ -96,39 +98,24 @@ export default function CouponModal({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const [year, month, day] = couponData.due_date.split("-");
-      const selectedDate = new Date(Date.UTC(year, month - 1, day, 15, 59, 59));
-      const timestamp = Math.floor(selectedDate.getTime() / 1000);
+      const dueDate = Math.floor(
+        new Date(year, month - 1, day).getTime() / 1000
+      );
 
       const submitData = {
         data: {
           title: couponData.title,
-          is_enabled: couponData.is_enabled,
-          percent: Number(couponData.percent),
-          due_date: timestamp,
           code: couponData.code,
+          percent: Number(couponData.percent),
+          due_date: dueDate,
+          is_enabled: Number(couponData.is_enabled),
         },
       };
 
-      if (modalMode === "edit" && tempCoupon?.id) {
-        await axios.put(
-          `${BASE_URL}/api/${API_PATH}/admin/coupon/${tempCoupon.id}`,
-          submitData,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
-        dispatch(
-          pushMessage({
-            id: Date.now(),
-            status: "success",
-            text: "優惠券已更新",
-          })
-        );
-      } else {
+      if (modalMode === "create") {
         await axios.post(
           `${BASE_URL}/api/${API_PATH}/admin/coupon`,
           submitData,
@@ -138,47 +125,48 @@ export default function CouponModal({
             },
           }
         );
-        dispatch(
-          pushMessage({
-            id: Date.now(),
-            status: "success",
-            text: "優惠券已新增",
-          })
+      } else {
+        await axios.put(
+          `${BASE_URL}/api/${API_PATH}/admin/coupon/${tempCoupon.id}`,
+          submitData,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
         );
-      }
-
-      closeCouponModal();
-      fetchCoupons();
-    } catch (error) {
-      let errorMessage = "優惠券操作失敗";
-      if (error.response?.data?.message) {
-        if (typeof error.response.data.message === "object") {
-          errorMessage = Object.values(error.response.data.message).join(", ");
-        } else {
-          errorMessage = error.response.data.message;
-        }
       }
 
       dispatch(
         pushMessage({
-          id: Date.now(),
-          status: "danger",
-          text: errorMessage,
+          text: `優惠券${modalMode === "create" ? "新增" : "更新"}成功`,
+          status: "success",
         })
       );
+      await fetchCoupons();
+      closeCouponModal();
+    } catch (error) {
+      console.error("提交優惠券失敗:", error);
+      dispatch(
+        pushMessage({
+          text: error.response?.data?.message || "提交優惠券失敗",
+          status: "danger",
+        })
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div
-      className="modal"
-      id="couponModal"
+      className="modal fade"
       ref={couponModalRef}
       tabIndex="-1"
-      role="dialog"
       aria-labelledby="couponModalLabel"
+      aria-hidden="true"
     >
-      <div className="modal-dialog modal-dialog-centered">
+      <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="couponModalLabel">
@@ -187,8 +175,8 @@ export default function CouponModal({
             <button
               type="button"
               className="btn-close"
-              onClick={closeCouponModal}
               aria-label="Close"
+              onClick={closeCouponModal}
             ></button>
           </div>
           <div className="modal-body">
@@ -210,7 +198,7 @@ export default function CouponModal({
               </div>
               <div className="mb-3">
                 <label htmlFor="code" className="form-label">
-                  優惠碼
+                  優惠券代碼
                 </label>
                 <input
                   type="text"
@@ -225,7 +213,7 @@ export default function CouponModal({
               </div>
               <div className="mb-3">
                 <label htmlFor="percent" className="form-label">
-                  折扣百分比
+                  折扣
                 </label>
                 <input
                   type="number"
@@ -235,8 +223,6 @@ export default function CouponModal({
                   onChange={(e) =>
                     setCouponData({ ...couponData, percent: e.target.value })
                   }
-                  min="1"
-                  max="100"
                   required
                 />
               </div>
@@ -256,25 +242,22 @@ export default function CouponModal({
                 />
               </div>
               <div className="mb-3">
-                <div className="form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="is_enabled"
-                    checked={couponData.is_enabled === 1}
-                    onChange={(e) =>
-                      setCouponData({
-                        ...couponData,
-                        is_enabled: e.target.checked ? 1 : 0,
-                      })
-                    }
-                  />
-                  <label className="form-check-label" htmlFor="is_enabled">
-                    啟用
-                  </label>
-                </div>
+                <label htmlFor="is_enabled" className="form-label">
+                  是否啟用
+                </label>
+                <select
+                  className="form-select"
+                  id="is_enabled"
+                  value={couponData.is_enabled}
+                  onChange={(e) =>
+                    setCouponData({ ...couponData, is_enabled: e.target.value })
+                  }
+                >
+                  <option value="1">啟用</option>
+                  <option value="0">停用</option>
+                </select>
               </div>
-              <div className="modal-footer">
+              <div className="d-flex justify-content-end gap-2">
                 <button
                   type="button"
                   className="btn btn-secondary"
@@ -282,8 +265,23 @@ export default function CouponModal({
                 >
                   取消
                 </button>
-                <button type="submit" className="btn btn-primary">
-                  {modalMode === "edit" ? "更新" : "新增"}
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <ReactLoading
+                      type="spinningBubbles"
+                      color="#ffffff"
+                      height={20}
+                      width={20}
+                    />
+                  ) : modalMode === "create" ? (
+                    "新增"
+                  ) : (
+                    "更新"
+                  )}
                 </button>
               </div>
             </form>

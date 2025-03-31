@@ -13,7 +13,7 @@ const API_PATH = import.meta.env.VITE_API_PATH;
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [isDelOrderModalOpen, setIsDelOrderModalOpen] = useState(false);
   const [tempOrder, setTempOrder] = useState(null);
@@ -60,7 +60,11 @@ export default function AdminOrders() {
   }, [fetchOrders]);
 
   const openOrderModal = (order) => {
-    setTempOrder(order);
+    const orderData = {
+      ...order,
+      create_at: Math.floor(new Date(order.create_at).getTime() / 1000),
+    };
+    setTempOrder(orderData);
     setIsOrderModalOpen(true);
   };
 
@@ -109,9 +113,24 @@ export default function AdminOrders() {
             className="btn btn-danger"
             onClick={() => openDelOrderModal(null, true)}
           >
-            刪除所有訂單
+            清空訂單
           </button>
         </div>
+
+        {loading && (
+          <div
+            className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75"
+            style={{ zIndex: 9999 }}
+          >
+            <ReactLoading
+              type="spinningBubbles"
+              color="#6c757d"
+              height={100}
+              width={100}
+              className="position-fixed top-50 start-50 translate-middle"
+            />
+          </div>
+        )}
 
         {orders.length === 0 ? (
           <h3 className="mb-5 text-center" style={{ color: "#e3e3e3" }}>
@@ -277,20 +296,6 @@ export default function AdminOrders() {
                 </tbody>
               </table>
             </div>
-            {loading && (
-              <div
-                className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75"
-                style={{ zIndex: 9999 }}
-              >
-                <ReactLoading
-                  type="spinningBubbles"
-                  color="#6c757d"
-                  height={100}
-                  width={100}
-                  className="position-fixed top-50 start-50 translate-middle"
-                />
-              </div>
-            )}
           </>
         )}
       </div>

@@ -13,7 +13,7 @@ const API_PATH = import.meta.env.VITE_API_PATH;
 
 export default function AdminCoupons() {
   const [coupons, setCoupons] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isCouponModalOpen, setIsCouponModalOpen] = useState(false);
   const [isDelCouponModalOpen, setIsDelCouponModalOpen] = useState(false);
   const [tempCoupon, setTempCoupon] = useState(null);
@@ -22,6 +22,7 @@ export default function AdminCoupons() {
 
   const fetchCoupons = useCallback(async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
         `${BASE_URL}/api/${API_PATH}/admin/coupons`
       );
@@ -65,6 +66,21 @@ export default function AdminCoupons() {
             新增優惠券
           </button>
         </div>
+
+        {loading && (
+          <div
+            className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75"
+            style={{ zIndex: 9999 }}
+          >
+            <ReactLoading
+              type="spinningBubbles"
+              color="#6c757d"
+              height={100}
+              width={100}
+              className="position-fixed top-50 start-50 translate-middle"
+            />
+          </div>
+        )}
 
         {coupons.length === 0 ? (
           <h3 className="mb-5 text-center" style={{ color: "#e3e3e3" }}>
@@ -119,20 +135,6 @@ export default function AdminCoupons() {
                 </tr>
               ))}
             </tbody>
-            {loading && (
-              <div
-                className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75"
-                style={{ zIndex: 9999 }}
-              >
-                <ReactLoading
-                  type="spinningBubbles"
-                  color="#6c757d"
-                  height={100}
-                  width={100}
-                  className="position-fixed top-50 start-50 translate-middle"
-                />
-              </div>
-            )}
           </table>
         )}
       </div>
