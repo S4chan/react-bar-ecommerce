@@ -107,73 +107,67 @@ export default function ProductModal({
   };
 
   const createProduct = async () => {
-    try {
-      await axios.post(
-        `${BASE_URL}/api/${API_PATH}/admin/product`,
-        {
-          data: {
-            ...modalData,
-            origin_price: Number(modalData.origin_price),
-            price: Number(modalData.price),
-            is_enabled: modalData.is_enabled ? 1 : 0,
-          },
+    await axios.post(
+      `${BASE_URL}/api/${API_PATH}/admin/product`,
+      {
+        data: {
+          ...modalData,
+          origin_price: Number(modalData.origin_price),
+          price: Number(modalData.price),
+          is_enabled: modalData.is_enabled ? 1 : 0,
         },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-      dispatch(
-        pushMessage({
-          text: "產品新增成功",
-          status: "success",
-        })
-      );
-    } catch (error) {
-      const { message } = error.response?.data || "產品新增失敗";
-      dispatch(
-        pushMessage({
-          text: message.join("、"),
-          status: "failed",
-        })
-      );
-    }
+      },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    dispatch(
+      pushMessage({
+        text: "產品新增成功",
+        status: "success",
+      })
+    );
   };
 
   const updataProduct = async () => {
-    try {
-      await axios.put(
-        `${BASE_URL}/api/${API_PATH}/admin/product/${modalData.id}`,
-        {
-          data: {
-            ...modalData,
-            origin_price: Number(modalData.origin_price),
-            price: Number(modalData.price),
-            is_enabled: modalData.is_enabled ? 1 : 0,
-          },
-        },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-      dispatch(
-        pushMessage({
-          text: "產品編輯成功",
-          status: "success",
-        })
-      );
-    } catch (error) {
-      const { message } = error.response?.data || "產品編輯失敗";
-      dispatch(
-        pushMessage({
-          text: message.join("、"),
-          status: "failed",
-        })
-      );
+    // 檢查必填欄位
+    const requiredFields = [
+      "title",
+      "category",
+      "unit",
+      "origin_price",
+      "price",
+    ];
+    const emptyFields = requiredFields.filter((field) => !modalData[field]);
+
+    if (emptyFields.length > 0) {
+      throw new Error(`以下欄位不能為空：${emptyFields.join("、")}`);
     }
+
+    await axios.put(
+      `${BASE_URL}/api/${API_PATH}/admin/product/${modalData.id}`,
+      {
+        data: {
+          ...modalData,
+          origin_price: Number(modalData.origin_price),
+          price: Number(modalData.price),
+          is_enabled: modalData.is_enabled ? 1 : 0,
+        },
+      },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    dispatch(
+      pushMessage({
+        text: "產品編輯成功",
+        status: "success",
+      })
+    );
   };
 
   const updataProductHandler = async () => {
@@ -184,8 +178,18 @@ export default function ProductModal({
       catchProducts();
       closeProductModal();
     } catch (error) {
-      alert("產品更新失敗");
-      console.error(error);
+      console.error("ProductModal - updataProductHandler - 操作失敗:", error);
+      dispatch(
+        pushMessage({
+          text: error.response?.data?.message || "產品更新失敗",
+          status: "failed",
+        })
+      );
+      // 清空圖片上傳欄位
+      const imageInput = document.querySelector('input[type="file"]');
+      if (imageInput) {
+        imageInput.value = "";
+      }
     }
   };
 
