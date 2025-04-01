@@ -14,6 +14,7 @@ export default function OrderModal({
   isOpen,
   setIsOpen,
   fetchOrders,
+  setTempOrder,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const orderModalRef = useRef(null);
@@ -22,7 +23,7 @@ export default function OrderModal({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isOpen && orderModalRef.current && tempOrder) {
+    if (isOpen && orderModalRef.current) {
       const modalElement = orderModalRef.current;
 
       if (modalInstance.current) {
@@ -37,6 +38,14 @@ export default function OrderModal({
 
       const handleHidden = () => {
         setIsOpen(false);
+        document.body.classList.remove("modal-open");
+        document.body.style.removeProperty("padding-right");
+        document.body.removeAttribute("data-bs-overflow");
+        document.body.removeAttribute("data-bs-padding-right");
+        const backdrop = document.querySelector(".modal-backdrop");
+        if (backdrop) {
+          backdrop.remove();
+        }
       };
 
       modalElement.addEventListener("hidden.bs.modal", handleHidden);
@@ -48,26 +57,61 @@ export default function OrderModal({
         modalInstance.current.dispose();
         modalInstance.current = null;
       }
+      document.body.classList.remove("modal-open");
+      document.body.style.removeProperty("padding-right");
+      document.body.removeAttribute("data-bs-overflow");
+      document.body.removeAttribute("data-bs-padding-right");
+      const backdrop = document.querySelector(".modal-backdrop");
+      if (backdrop) {
+        backdrop.remove();
+      }
     };
-  }, [isOpen, setIsOpen, tempOrder]);
+  }, [isOpen, setIsOpen]);
+
+  // 處理 tempOrder 的更新
+  useEffect(() => {
+    if (tempOrder && modalInstance.current) {
+      // 這裡可以處理 tempOrder 更新時的邏輯
+      // 例如：更新表單欄位的值
+    }
+  }, [tempOrder]);
 
   const closeOrderModal = () => {
     if (modalInstance.current) {
       modalInstance.current.hide();
+      // 清除 modal 相關的樣式
+      document.body.classList.remove("modal-open");
+      document.body.style.removeProperty("padding-right");
+      document.body.removeAttribute("data-bs-overflow");
+      document.body.removeAttribute("data-bs-padding-right");
+      const backdrop = document.querySelector(".modal-backdrop");
+      if (backdrop) {
+        backdrop.remove();
+      }
     }
   };
 
   const handleInputBlur = (e) => {
     const { value, name } = e.target;
+    // 創建一個新的物件來避免直接修改 tempOrder
+    const updatedOrder = { ...tempOrder };
+
     if (name.includes(".")) {
       const [parent, child] = name.split(".");
-      tempOrder[parent] = {
-        ...tempOrder[parent],
+      updatedOrder[parent] = {
+        ...updatedOrder[parent],
         [child]: value,
       };
     } else {
-      tempOrder[name] = value;
+      if (name === "is_paid") {
+        updatedOrder[name] = value === "1";
+      } else {
+        updatedOrder[name] = value;
+      }
     }
+
+    // 更新父組件的 tempOrder
+    setTempOrder(updatedOrder);
   };
 
   const updateOrder = async () => {
@@ -175,11 +219,11 @@ export default function OrderModal({
                   <select
                     name="is_paid"
                     className="form-select"
-                    defaultValue={tempOrder.is_paid ? 1 : 0}
-                    onBlur={handleInputBlur}
+                    value={tempOrder.is_paid ? "1" : "0"}
+                    onChange={handleInputBlur}
                   >
-                    <option value={0}>未付款</option>
-                    <option value={1}>已付款</option>
+                    <option value="0">未付款</option>
+                    <option value="1">已付款</option>
                   </select>
                 </div>
               </div>
@@ -192,8 +236,8 @@ export default function OrderModal({
                     type="text"
                     name="user.name"
                     className="form-control"
-                    defaultValue={tempOrder.user?.name || ""}
-                    onBlur={handleInputBlur}
+                    value={tempOrder.user?.name || ""}
+                    onChange={handleInputBlur}
                   />
                 </div>
                 <div className="mb-3">
@@ -202,8 +246,8 @@ export default function OrderModal({
                     type="text"
                     name="user.tel"
                     className="form-control"
-                    defaultValue={tempOrder.user?.tel || ""}
-                    onBlur={handleInputBlur}
+                    value={tempOrder.user?.tel || ""}
+                    onChange={handleInputBlur}
                   />
                 </div>
                 <div className="mb-3">
@@ -212,8 +256,8 @@ export default function OrderModal({
                     type="text"
                     name="user.email"
                     className="form-control"
-                    defaultValue={tempOrder.user?.email || ""}
-                    onBlur={handleInputBlur}
+                    value={tempOrder.user?.email || ""}
+                    onChange={handleInputBlur}
                   />
                 </div>
                 <div className="mb-3">
@@ -222,8 +266,8 @@ export default function OrderModal({
                     type="text"
                     name="user.address"
                     className="form-control"
-                    defaultValue={tempOrder.user?.address || ""}
-                    onBlur={handleInputBlur}
+                    value={tempOrder.user?.address || ""}
+                    onChange={handleInputBlur}
                   />
                 </div>
               </div>
@@ -268,8 +312,8 @@ export default function OrderModal({
                   <textarea
                     name="message"
                     className="form-control"
-                    defaultValue={tempOrder.message || ""}
-                    onBlur={handleInputBlur}
+                    value={tempOrder.message || ""}
+                    onChange={handleInputBlur}
                     rows={3}
                   ></textarea>
                 </div>
@@ -340,4 +384,5 @@ OrderModal.propTypes = {
   isOpen: PropTypes.bool,
   setIsOpen: PropTypes.func,
   fetchOrders: PropTypes.func,
+  setTempOrder: PropTypes.func,
 };

@@ -38,11 +38,10 @@ export default function AdminOrders() {
       );
       setOrders(response.data.orders);
     } catch (error) {
-      console.error("獲取訂單失敗：", error);
-      const { message } = error.response?.data || "獲取訂單失敗";
+      console.error("Error fetching orders:", error);
       dispatch(
         pushMessage({
-          text: Array.isArray(message) ? message.join("、") : message,
+          text: "獲取訂單列表失敗",
           status: "failed",
         })
       );
@@ -60,11 +59,14 @@ export default function AdminOrders() {
   }, [fetchOrders]);
 
   const openOrderModal = (order) => {
-    const orderData = {
+    // 創建一個新的物件來避免引用問題
+    const newOrder = {
       ...order,
-      create_at: Math.floor(new Date(order.create_at).getTime() / 1000),
+      user: { ...order.user },
+      products: { ...order.products },
     };
-    setTempOrder(orderData);
+
+    setTempOrder(newOrder);
     setIsOrderModalOpen(true);
   };
 
@@ -169,7 +171,9 @@ export default function AdminOrders() {
                     <React.Fragment key={order.id}>
                       <tr>
                         <td>{order.id}</td>
-                        <td>{new Date(order.create_at).toLocaleString()}</td>
+                        <td>
+                          {new Date(order.create_at * 1000).toLocaleString()}
+                        </td>
                         <td>{order.user.name}</td>
                         <td>
                           {Object.values(order.products || {}).map(
@@ -305,6 +309,7 @@ export default function AdminOrders() {
         isOpen={isOrderModalOpen}
         setIsOpen={setIsOrderModalOpen}
         fetchOrders={fetchOrders}
+        setTempOrder={setTempOrder}
       />
 
       <DelOrderModal
