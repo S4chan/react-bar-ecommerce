@@ -45,10 +45,14 @@ export default function AdminLayout() {
   }, [navigate]);
 
   return (
-    <>
+    <div
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    >
       <AdminNavbar />
-      <Outlet />
+      <div style={{ flex: 1 }}>
+        <Outlet />
+      </div>
       <Footer />
-    </>
+    </div>
   );
 }
