@@ -70,10 +70,6 @@ export default function MenuDetailPage() {
     }
   }, [dispatch]);
 
-  useEffect(() => {
-    getCart();
-  }, [getCart]);
-
   const addCartItem = async (product_id, qty) => {
     setIsLoading(true);
     try {
@@ -103,7 +99,7 @@ export default function MenuDetailPage() {
     <>
       <div className="container-fluid py-5">
         <div className="container py-4">
-          <div className="row align-items-center bg-dark rounded-3 p-4 mb-5">
+          <div className="row align-items-center bg-dark rounded-3 p-4 my-5">
             <div className="col-md-7">
               <div
                 className="bg-light rounded-3 overflow-hidden"

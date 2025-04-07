@@ -2,7 +2,6 @@ import ProductModal from "../../components/ProductModal";
 import DelProductModal from "../../components/DelProductModal";
 import Pagination from "../../components/Pagination";
 import Toast from "../../components/Toast.jsx";
-import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ReactLoading from "react-loading";
@@ -62,18 +61,6 @@ export default function AdminProducts() {
     catchProducts(page);
   };
 
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    try {
-      await axios.post(`${BASE_URL}/logout`);
-      navigate("/");
-    } catch (error) {
-      console.error(error);
-      alert(error.response.data.message);
-    }
-  };
-
   const openProductModal = (mode, product) => {
     setModalMode(mode);
     switch (mode) {
@@ -93,17 +80,6 @@ export default function AdminProducts() {
   return (
     <>
       <div className="container py-5">
-        <div className="row mb-3">
-          <div className="justify-content-end">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => handleLogout()}
-            >
-              登出
-            </button>
-          </div>
-        </div>
         <div className="row">
           <div className="col">
             <div className="d-flex justify-content-between">

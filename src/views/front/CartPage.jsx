@@ -313,7 +313,9 @@ export default function CartPage() {
                               </div>
                             </td>
                             <td className="align-middle text-white">
-                              <p className="mb-0">NT${cartItem.final_total}</p>
+                              <p className="mb-0">
+                                NT${cartItem.total.toLocaleString()}
+                              </p>
                             </td>
                             <td className="align-middle">
                               <button
@@ -354,7 +356,7 @@ export default function CartPage() {
                                     {cartItem.product.title}
                                   </h5>
                                   <p className="card-text mb-2 text-white">
-                                    NT${cartItem.final_total}
+                                    NT${cartItem.total.toLocaleString()}
                                   </p>
                                   <div
                                     className="input-group input-group-sm"
@@ -497,7 +499,9 @@ export default function CartPage() {
                 )}
                 <div className="d-flex justify-content-between mt-4">
                   <p className="mb-0 h4 fw-bold">總計</p>
-                  <p className="mb-0 h4 fw-bold">NT${cart.final_total}</p>
+                  <p className="mb-0 h4 fw-bold">
+                    NT${cart.final_total.toLocaleString()}
+                  </p>
                 </div>
                 {couponCode && cart.final_total !== cart.total && (
                   <div className="d-flex justify-content-between mt-2">
@@ -505,7 +509,7 @@ export default function CartPage() {
                       原價
                     </p>
                     <p className="mb-0 text-decoration-line-through text-muted">
-                      NT${cart.total}
+                      NT${cart.total.toLocaleString()}
                     </p>
                   </div>
                 )}

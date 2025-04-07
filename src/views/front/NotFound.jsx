@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import durnk from "../../assets/images/79b6gxhk.png";
+import durnk from "../../assets/images/79b6gxhk.webp";
 
 export default function NotFound() {
   return (
