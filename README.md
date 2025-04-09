@@ -37,9 +37,11 @@ The application will be running at `http://localhost:3000`.
 
 ## Technologies Used
 
--React: A JavaScript library for building user interfaces.
--Vite: Next-generation frontend tooling for faster development.
--SCSS: Preprocessor for enhanced CSS functionalities.
+- React: A JavaScript library for building user interfaces.
+
+- Vite: Next-generation frontend tooling for faster development.
+
+- SCSS: Preprocessor for enhanced CSS functionalities.
 
 ## License
 This project is licensed under the MIT License.
