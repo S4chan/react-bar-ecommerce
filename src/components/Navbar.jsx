@@ -63,7 +63,7 @@ export default function Navbar() {
           </li>
           <li>
             <Link to="/event" onClick={() => setIsSidebarOpen(false)}>
-              活動
+              EVENT
             </Link>
           </li>
           <li>
@@ -99,7 +99,7 @@ export default function Navbar() {
             <Link to="/menu">MENU</Link>
           </li>
           <li className="hideOnMobile">
-            <Link to="/event">活動</Link>
+            <Link to="/event">EVENT</Link>
           </li>
           <li className="hideOnMobile">
             <Link to="/cart">
